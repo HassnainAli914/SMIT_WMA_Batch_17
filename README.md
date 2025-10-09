@@ -1,9 +1,6 @@
 # SMIT_MWA_Batch_17
 SMIT – Modern Web Application Development (Batch 17) | Assignments &amp; Practice Work
 
----
-
-```markdown
 # 🧑‍💻 Modern Web Application Development – SMIT
 
 **Course Name:** Modern Web Application Development (WMA)  
@@ -41,9 +38,6 @@ Each folder or file corresponds to a specific **lecture** or **topic** covered i
 
 ## 📂 Repository Structure Example
 
-```
-```
-
 ---
 
 ## 🧠 Key Learning Topics
@@ -80,9 +74,3 @@ By the end of this course, the goal is to:
 ---
 
 > 💡 *This repository is part of my learning journey at Saylani Mass IT Training Program (SMIT), where I’m continuously improving my skills in modern web development.*
-```
-
----
-
-Would you like me to include **GitHub profile badges** (like “Made with JavaScript” or “Open Source”) and a **GitHub Pages project link section** at the bottom?
-That makes your README look even more professional and polished.
