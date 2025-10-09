@@ -1,8 +1,3 @@
-# SMIT_MWA_Batch_17
-SMIT – Modern Web Application Development (Batch 17) | Assignments &amp; Practice Work
-
----
-
 # 🧑‍💻 Modern Web Application Development – SMIT
 
 **Course Name:** Modern Web Application Development (WMA)  
