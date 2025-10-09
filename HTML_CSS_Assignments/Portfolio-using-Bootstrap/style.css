@@ -1,0 +1,15 @@
+    body {
+      scroll-behavior: smooth;
+    }
+    .hero {
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: white;
+      padding: 100px 0;
+    }
+    .section-title {
+      margin-bottom: 2rem;
+      font-weight: bold;
+    }
+    .testimonial {
+      font-style: italic;
+    }

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools - CyberTools Hub</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Required Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.43/moment-timezone-with-data.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql-formatter/12.2.4/sql-formatter.min.js"></script>
+</head>
+<body class="dark-mode">
+    <div class="noise-overlay"></div>
+    <nav class="navbar">
+        <div class="logo">
+            <span class="cyber-text">Cyber</span>Tools
+        </div>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="tools.html" class="active">Tools</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <main>
+        <section class="tools-section">
+            <h2 class="section-title">AI & Machine Learning Tools</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="textToSpeech">
+                    <i class="fas fa-microphone"></i>
+                    <h3>Text to Speech</h3>
+                    <p>Convert text to natural-sounding speech using browser APIs.</p>
+                </div>
+                <div class="tool-card" data-tool="voiceRecorder">
+                    <i class="fas fa-microphone-alt"></i>
+                    <h3>Voice Recorder</h3>
+                    <p>Record and save audio using browser's MediaRecorder.</p>
+                </div>
+                <div class="tool-card" data-tool="imageFilter">
+                    <i class="fas fa-image"></i>
+                    <h3>Image Filter</h3>
+                    <p>Apply real-time filters and effects to images using Canvas.</p>
+                </div>
+                <div class="tool-card" data-tool="textAnalyzer">
+                    <i class="fas fa-font"></i>
+                    <h3>Text Analyzer</h3>
+                    <p>Analyze text for readability, word count, and sentiment.</p>
+                </div>
+            </div>
+
+            <h2 class="section-title">Web Development Tools</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="cssGenerator">
+                    <i class="fas fa-paint-brush"></i>
+                    <h3>CSS Generator</h3>
+                    <p>Generate modern CSS effects and animations.</p>
+                </div>
+                <div class="tool-card" data-tool="colorPalette">
+                    <i class="fas fa-palette"></i>
+                    <h3>Color Palette Generator</h3>
+                    <p>Create harmonious color schemes for your designs.</p>
+                </div>
+                <div class="tool-card" data-tool="responsiveChecker">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Responsive Checker</h3>
+                    <p>Test website layouts at different screen sizes.</p>
+                </div>
+                <div class="tool-card" data-tool="cssGrid">
+                    <i class="fas fa-th"></i>
+                    <h3>CSS Grid Generator</h3>
+                    <p>Visual tool to create CSS Grid layouts.</p>
+                </div>
+            </div>
+
+            <h2 class="section-title">Design & Media Tools</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="imageEditor">
+                    <i class="fas fa-crop"></i>
+                    <h3>Image Editor</h3>
+                    <p>Edit images with filters, crop, and resize.</p>
+                </div>
+                <div class="tool-card" data-tool="svgWave">
+                    <i class="fas fa-wave-square"></i>
+                    <h3>SVG Wave Generator</h3>
+                    <p>Create beautiful wave patterns for web designs.</p>
+                </div>
+                <div class="tool-card" data-tool="patternMaker">
+                    <i class="fas fa-shapes"></i>
+                    <h3>Pattern Maker</h3>
+                    <p>Generate seamless background patterns.</p>
+                </div>
+                <div class="tool-card" data-tool="fontPreviewer">
+                    <i class="fas fa-font"></i>
+                    <h3>Font Previewer</h3>
+                    <p>Preview and compare different font combinations.</p>
+                </div>
+            </div>
+
+            <h2 class="section-title">Productivity Tools</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="pomodoroTimer">
+                    <i class="fas fa-clock"></i>
+                    <h3>Pomodoro Timer</h3>
+                    <p>Stay focused with customizable work/break intervals.</p>
+                </div>
+                <div class="tool-card" data-tool="kanbanBoard">
+                    <i class="fas fa-columns"></i>
+                    <h3>Kanban Board</h3>
+                    <p>Organize tasks with drag-and-drop boards.</p>
+                </div>
+                <div class="tool-card" data-tool="mindMap">
+                    <i class="fas fa-sitemap"></i>
+                    <h3>Mind Map Creator</h3>
+                    <p>Create visual mind maps for brainstorming.</p>
+                </div>
+                <div class="tool-card" data-tool="habitTracker">
+                    <i class="fas fa-check-square"></i>
+                    <h3>Habit Tracker</h3>
+                    <p>Track daily habits with visual progress.</p>
+                </div>
+            </div>
+
+            <h2 class="section-title">Data Analysis Tools</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="dataVisualizer">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Data Visualizer</h3>
+                    <p>Create interactive charts and graphs.</p>
+                </div>
+                <div class="tool-card" data-tool="csvAnalyzer">
+                    <i class="fas fa-table"></i>
+                    <h3>CSV Analyzer</h3>
+                    <p>Analyze and visualize CSV data instantly.</p>
+                </div>
+                <div class="tool-card" data-tool="statCalculator">
+                    <i class="fas fa-calculator"></i>
+                    <h3>Statistical Calculator</h3>
+                    <p>Calculate common statistical measures.</p>
+                </div>
+                <div class="tool-card" data-tool="dataFormatter">
+                    <i class="fas fa-code"></i>
+                    <h3>Data Formatter</h3>
+                    <p>Format and validate JSON, XML, and CSV data.</p>
+                </div>
+            </div>
+
+            <h2 class="section-title">Security Tools</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="passwordGenerator">
+                    <i class="fas fa-key"></i>
+                    <h3>Password Generator</h3>
+                    <p>Generate secure passwords with custom rules.</p>
+                </div>
+                <div class="tool-card" data-tool="hashCalculator">
+                    <i class="fas fa-fingerprint"></i>
+                    <h3>Hash Calculator</h3>
+                    <p>Calculate MD5, SHA-1, SHA-256 hashes.</p>
+                </div>
+                <div class="tool-card" data-tool="encoderDecoder">
+                    <i class="fas fa-exchange-alt"></i>
+                    <h3>Encoder/Decoder</h3>
+                    <p>Encode/decode Base64, URL, and more.</p>
+                </div>
+                <div class="tool-card" data-tool="passwordStrength">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Password Strength Checker</h3>
+                    <p>Check password strength with detailed analysis.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="../index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Popular Tools</h3>
+                    <a href="#" data-tool="colorConverter">Color Converter</a>
+                    <a href="#" data-tool="timeConverter">Time Zone Converter</a>
+                    <a href="#" data-tool="jsonFormatter">JSON Formatter</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect With Us</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 CyberTools Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Tool Modal -->
+    <div class="modal" id="toolModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script src="../tool-functions.js" type="module"></script>
+    <script src="../script.js" type="module"></script>
+</body>
+</html> 

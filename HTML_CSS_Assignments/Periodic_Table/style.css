@@ -1,0 +1,107 @@
+*{
+    padding: 0;
+    margin: auto;
+}
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    background-color: black;
+}
+td{
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    color: white;
+}
+p{
+    font-size: 10px;
+}
+.colspan{
+    border: none;
+}
+.aqua{
+    background-color: #11cde2;
+}
+.aqua:hover{
+    background-color: #0d9aaa;
+    color: black;
+}
+.darkcyan{
+    background-color: #0aafc0;
+}
+.darkcyan:hover{
+    background-color: #078997;
+    color: black;
+}
+.blue{
+    background-color: #176bca;
+}
+.blue:hover{
+    background-color: #114c8f;
+    color: black;
+}
+.purple1{
+    background-color: #9e669e;
+}
+.purple1:hover{
+    background-color: #754b75;
+    color: black;
+}
+.red{
+    background-color: #f83752;
+}
+.red:hover{
+    background-color: #c42a3f;
+    color: black;
+}
+.navy{
+    background-color: #004c76;
+}
+.navy:hover{
+    background-color: #023753;
+    color: black;
+}
+.purple2{
+    background-color: #5b2b58;
+}
+.purple2:hover{
+    background-color: #492347;
+    color: black;
+}
+.orange{
+    background-color: #f76d43;
+}
+.orange:hover{
+    background-color: #bd5131;
+    color: black;
+}
+.yellow{
+    background-color: #f2b855;
+}
+.yellow:hover{
+    background-color: #b98935;
+    color: black;
+}
+.lightcyan{
+    background-color: #3de2e7;
+}
+.lightcyan:hover{
+    background-color: #2ea9ad;
+    color: black;
+}
+.green{
+    background-color: #50d65e;
+}
+.green:hover{
+    background-color: #3ea548;
+    color: black;
+}
+.gray{
+    background-color: #859797;
+}
+.gray:hover{
+    background-color: #667474;
+    color: black;
+}

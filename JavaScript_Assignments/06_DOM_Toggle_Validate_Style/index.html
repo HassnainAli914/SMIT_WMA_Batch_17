@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - JavaScript Assignment 6</title>
+</head>
+
+<body onload="seeLess()">
+
+    <!-- assignment - show less clickable button with sliced text -->
+    <!-- --------------------- Start --------------------- -->
+    <h1>Show More / Show Less</h1>
+    <p id="seeLess">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corporis, et.</p>
+    <button id="seeMore" onclick="seeMore()">See More</button>
+    <!-- --------------------- End --------------------- -->
+
+    <hr>
+
+    <!-- assignment - individual check name and email  -->
+    <!-- --------------------- Start --------------------- -->
+    <form action="">
+        <h1>Form Validation</h1>
+        <label for="name">Name: </label>
+        <input type="text" id="name">
+        <br><br>
+        <label for="email">Email: </label>
+        <input type="text" id="email">
+        <br><br>
+        <input id="submit" type="submit" onclick="checkValid()" value="Submit">
+    </form>
+    <!-- --------------------- End --------------------- -->
+
+    <hr>
+
+    <!-- assigmrnt -- create a modern style div with border colors shadow and insert a defined image  -->
+    <!-- --------------------- Start --------------------- -->
+     <div id="styledDiv" >
+        <button onclick="styledDiv()">Convert to Styled Div</button>
+        <h2>Styled Div with Image</h2>
+        <img src="https://hips.hearstapps.com/hmg-prod/images/2026-bugatti-tourbillon-104-66709d54aa287.jpg" alt="Placeholder Image" style="width:100%; height:auto;">
+        <p>This is a div with modern styling including border, shadow, and padding.</p>
+     </div>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>

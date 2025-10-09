@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+/* Header Start */
+header {
+    background-color: white;
+    position: sticky;
+    top: 0px;
+    z-index: 100;
+}
+
+.label {
+    width: 100%;
+    height: 26px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    color: white;
+    background-color: #736647;
+    padding: 5px;
+}
+
+.label span {
+    color: yellow;
+}
+
+header {
+    border-bottom: 1px solid #ccc;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 40px;
+}
+
+.nav-left,
+.nav-right {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    text-decoration: underline;
+}
+li{
+    cursor: pointer;
+}
+.logo img {
+    height: 30px;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    border-top: 1px solid #ccc;
+}
+
+/* Header End */
+
+/* Hero Start */
+.menu ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+}
+
+.hero {
+    width: 100%;
+    height: 100%;
+}
+
+.hero img{
+    position: relative;
+    width: 100%;
+}
+.btn-1 {
+    position: absolute;
+    left: 40%;
+    bottom: 5px;
+    width: 170px;
+    transform: translate(-15%);
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    padding: 15px 15px;
+}
+.btn-2 {
+    position: absolute;
+    left: 55%;
+    bottom: 5px;
+    width: 170px;
+    transform: translate(-15%);
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    padding: 15px 15px;
+}
+.hero button:hover {
+    color: white;
+    background-color: black;
+    transition-duration: 500ms;
+}
+
+/* Hero End */
+
+/* Pant Types Start */
+.types {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin: 50px;
+}
+
+.types div {
+    width: 400px;
+    height: 500px;
+}
+
+.types img {
+    width: 100%;
+    height: 100%;
+}
+
+.types button {
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    padding: 15px 60px;
+}
+/* Pant Types End */
+
+/* Products Label Start */
+.products-label{
+    text-align: center;
+}
+/* Products Label End */
+
+/* Products Start */
+.products{
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.product{
+    position: relative;
+    width: 270px;
+    height: 480px;      
+}
+.new{
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    font-size: 10px;
+    padding: 5px;
+    color: black;
+    font-weight: 600;
+    background-color: white;
+    z-index: 1;
+}
+.images{
+    width: 100%;
+    position: relative;
+}
+.images img{
+    width: 100%;
+}
+.images span{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 10px;
+    padding: 5px;
+    color: red;
+    font-weight: 600;
+    background-color: white;
+}
+.details{
+    font-size: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.details b{
+    margin-right: 5px;
+}
+.profile{
+    width: 40px;
+    height: 40px;
+    margin-top: 15px;
+}
+.profile img{
+    border-radius: 50px;
+    width: 100%;
+    height: 100%;
+}
+/* Products End */
+
+.whatsapp {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+.whatsapp img {
+    width: 200px;
+}
+.whatsapp img:hover{
+    width: 210px;
+    transition-duration: 0.4s;
+}
+.notification {
+    position: fixed;
+    bottom: 10px;
+    left: 20px;
+}
+
+.notification img {
+    width: 70px;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 15px;
+}
+.notification:hover{
+    width: 80px;
+    transition-duration: 0.4s;
+}
+.types div {
+    position: relative;
+}
+
+.types button {
+    position: absolute;
+    left: 50%;
+    bottom: 70px;
+    width: 170px;
+    transform: translate(-50%);
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    padding: 15px 15px;
+}
+
+.types button:hover {
+    color: white;
+    background-color: black;
+    transition-duration: 500ms;
+}

@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    font-size: medium;
+    font-weight: 600;
+    list-style: none;
+    position: relative;
+}
+#theme{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: black;
+    color: white;
+    box-shadow: 0px 0px 10px 0px;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+#popup{
+    display: none;
+    position: fixed;
+    font-size: medium;
+    top: 65px;
+    right: 20px;
+    background-color: black;
+    color: red;
+    box-shadow: 0px 0px 10px 0px;
+    padding: 5px;
+    border-radius: 10px;
+}
+#popup p{
+    display: inline-block;
+}
+#popup span{
+    padding: 5px;
+    padding-left: 10px;
+    font-size: medium;
+    cursor: pointer;
+}
+/* keep table layout aligned */
+table {
+    padding: 5px;
+}
+#body {
+    max-height: 250px; 
+    overflow-y: auto;  
+}
+#body tr {
+    width: 100%; 
+    table-layout: fixed;
+}
+th {
+    padding-bottom: 10px;
+}
+#label {
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+}
+
+td {
+    border: none;
+    border-width: 0;
+    width: 60px;
+    padding: 5px;
+    border-bottom: 1px solid black;
+}
+
+li {
+    width: 100%;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    hyphens: auto; 
+    color: white;
+}
+
+#fieldset {
+    background-color: rgba(0, 223, 223, 0.527);
+    padding: 10px;
+    box-shadow: 0px 0px 150px 0px white;
+    border-radius: 10px;
+}
+
+legend {
+    font-size: medium;
+    padding: 8px;
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+button {
+    /* width: 100%; */
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+#add {
+    width: 145px;
+    height: 40px;
+    color: white;
+    background-color: black;
+}
+
+#edit {
+    width: 60px;
+    font-weight: 600;
+    background-color: white;
+    color: black;
+}
+
+#delete {
+    background-color: black;
+    font-weight: 600;
+    color: white;
+}
+
+input {
+    border-radius: 5px;
+    padding: 5px;
+    width: 220px;
+    height: 100%;
+}
+
+.input {
+    border-radius: 5px;
+    padding: 5px;
+    width: 240px;
+    height: 40px;
+    color: red;
+}
+
+input:focus {
+    border-color: black;
+}
+#label {
+    text-align: center;
+}

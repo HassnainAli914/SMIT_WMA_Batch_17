@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Task</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Custom Theme Colors -->
+    <select id="theme">
+        <option value="rgba(0, 223, 223, 0.527)">Default Theme</option>
+        <option value="red">Red</option>
+        <option value="green">Green</option>
+        <option value="SkyBlue">Sky Blue</option>
+        <option value="blue">Blue</option>
+        <option value="gray">Gray</option>
+        <option value="purple">Purple</option>
+    </select>
+    <!-- Custom Popup Notification -->
+    <div id="popup">
+        <p id="error"></p><span id="close">X</span>
+    </div>
+
+    <fieldset id="fieldset">
+        <legend>ToDo List </legend>
+        <table>
+            <thead>
+
+                <tr>
+                    <th><input type="search" id="input" class="input" placeholder="Enter Work Here..." autofocus></th>
+                    <th colspan="2"><button id="add">Add</button></th>
+                </tr>
+                <tr>
+                    <td id="label" colspan="3">
+                        <li>List of Works</li>
+                    </td>
+                </tr>
+            </thead>
+            <tbody id="body">
+            </tbody>
+        </table>
+    </fieldset>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hassnain Ali - Resume</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div id="imgBox" class="profile-img" title="Click to load image"></div>
+
+      <h2>Contact</h2>
+      <p>📞 +92 307 9188914</p>
+      <p>📧 hassnainlaghari88@gmail.com</p>
+      <p>📍 Qayyumabad C Area, Karachi, Sindh</p>
+      <p>🌐 www.hassnainali.com</p>
+
+      <h3>Skills</h3>
+      <ul>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+        <li>Time Management</li>
+        <li>Communication</li>
+      </ul>
+
+      <h3>Languages</h3>
+      <ul>
+        <li>English (Fluent)</li>
+        <li>Urdu (Fluent)</li>
+        <li>Sindhi (Fluent)</li>
+        <li>Siraiki (Fluent)</li>
+      </ul>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+      <h1><span class="title">Hassnain</span> Ali</h1>
+      <p><strong>Web Developer</strong></p>
+
+      <div class="section">
+        <div class="section-title" onclick="toggleSection('profile')">Profile</div>
+        <div class="section-content" id="profile">
+          <p>Passionate Web Developer with a strong foundation in HTML, CSS, JavaScript, and modern frameworks.
+            Dedicated to building responsive, user-friendly websites and seamless digital experiences.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title" onclick="toggleSection('experience')">Experience</div>
+        <div class="section-content" id="experience">
+          <ul>
+            <li><strong>Borcelle Studio (2030 - Present)</strong><br>Marketing Manager & Specialist</li>
+            <li><strong>Fauget Studio (2025 - 2029)</strong><br>Marketing Manager & Specialist</li>
+            <li><strong>Studio Shodwe (2024 - 2025)</strong><br>Marketing Manager & Specialist</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title" onclick="toggleSection('education')">Education</div>
+        <div class="section-content" id="education">
+          <ul>
+            <li><strong>Matriculation (2023 - 2025)</strong><br>GBHSS Dad Laghari, Ghotki</li>
+            <li><strong>Intermidiate (2025 - 2027)</strong><br>GBHSS Dad Laghari, Ghotki</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title" onclick="toggleSection('references')">References</div>
+        <div class="section-content" id="references">
+          <p><strong>Estelle Darcy</strong> - Wardiere Inc. / CTO<br>Email: hello@reallygreatsite.com</p>
+          <p><strong>Harper Richard</strong> - Wardiere Inc. / CEO<br>Email: hello@reallygreatsite.com</p>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <h3>Contact Me</h3>
+        <form id="myform">
+          <input type="text" id="name" placeholder="Your Name">
+          <p id="namePop"></p>
+          <input type="text" id="email" placeholder="Your Email">
+          <p id="emailPop"></p>
+          <textarea rows="4" id="message" placeholder="Your Message"></textarea>
+          <p id="msgPop"></p>
+          <button id="submit" type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
