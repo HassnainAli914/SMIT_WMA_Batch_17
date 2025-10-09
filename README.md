@@ -1,6 +1,8 @@
 # SMIT_MWA_Batch_17
 SMIT – Modern Web Application Development (Batch 17) | Assignments &amp; Practice Work
 
+---
+
 # 🧑‍💻 Modern Web Application Development – SMIT
 
 **Course Name:** Modern Web Application Development (WMA)  
@@ -19,6 +21,8 @@ SMIT – Modern Web Application Development (Batch 17) | Assignments &amp; Pract
 The **Modern Web Application Development** course aims to build a strong foundation in **front-end and back-end web technologies**.  
 It emphasizes mastering **JavaScript**, exploring both **Object-Oriented Programming (OOP)** and **Functional Programming**, and using modern frameworks for creating dynamic and interactive web applications.
 
+---
+
 ### 🎯 What You’ll Learn
 - Write clean, modular, and reusable JavaScript code  
 - Understand and apply OOP principles  
@@ -33,10 +37,6 @@ It emphasizes mastering **JavaScript**, exploring both **Object-Oriented Program
 
 This repository contains **daily assignments**, **practice tasks**, and **class projects** completed during the SMIT course.  
 Each folder or file corresponds to a specific **lecture** or **topic** covered in class.
-
----
-
-## 📂 Repository Structure Example
 
 ---
 
