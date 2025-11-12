@@ -1,4 +1,4 @@
-// App.tsx
+// Routers.tsx
 import { Routes, Route } from 'react-router-dom';
 import App from './App'
 import Auth from './pages/Auth';
