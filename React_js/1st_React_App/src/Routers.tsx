@@ -10,8 +10,8 @@ function Routers() {
         <Routes>
             <Route path="*" element={<NotFound />} />
             <Route path="/" element={<App />} />
-            <Route path="#/auth" element={<Auth />} />
-            <Route path="#/posts" element={<PostPage />} />
+            <Route path="auth" element={<Auth />} />
+            <Route path="posts" element={<PostPage />} />
         </Routes>
     );
 }
