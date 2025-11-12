@@ -14,20 +14,20 @@ function Navbar() {
                                 <a className="nav-link" aria-current="page" href="/">Home</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="posts">Posts</a>
+                                <a className="nav-link" href="#/posts">Posts</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="about">About</a>
+                                <a className="nav-link" href="#/about">About</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="contact">Contact</a>
+                                <a className="nav-link" href="#/contact">Contact</a>
                             </li>
                         </ul>
                         <form className="d-flex" role="search">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" style={{ margin:'5px'}} />
                             <button className="btn btn-outline-success" type="submit" style={{ margin:'5px'}}>Search</button>
                             <button className="btn btn-outline-success active" style={{backgroundColor:'#ff4757', margin:'5px'}} type="submit">                                
-                                <a className="nav-link active" href="auth">Login</a>
+                                <a className="nav-link active" href="#/auth">Login</a>
                                 </button>
                         </form>
                     </div>

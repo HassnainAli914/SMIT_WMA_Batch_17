@@ -20,7 +20,7 @@ function SignIn() {
                     <br /><br />
                     <input type="submit" style={{ borderRadius: '10px', backgroundColor: 'lightblue', fontStyle: 'italic' }} value="Sign-in" />
                     <hr />
-                    <p style={{ padding: '10px' }}>❗ Not have accout click here <a href="#" style={{ color: 'black' }} onClick={()=> setSign('Sign-Up')}>Sign-Up</a></p>
+                    <p style={{ padding: '10px' }}>❗ Not have accout click here <span style={{ color: 'black', cursor:'pointer' }} onClick={()=> setSign('Sign-Up')}>Sign-Up</span></p>
                 </div>
             </div>
         </>
