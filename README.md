@@ -79,7 +79,7 @@ By the end of this course, the goal is to:
 
 ```bash
 git init
-git remote add origin https://github.com/HassnainAli914/JavaScript_Assignments_SMIT.git
+git remote add origin https://github.com/HassnainAli914/SMIT_MWA_Batch_17.git
 git add .
 git commit -m "Initial commit"
 git branch -M main
