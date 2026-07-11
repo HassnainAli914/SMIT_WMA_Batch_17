@@ -1,9 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext";
+import DropdownProfile from "../../DropdownProfile";
 
 import Logo from "./logo";
 
 export default function Header() {
+  const { user, isLoading } = useAuth();
+
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -61,25 +65,41 @@ export default function Header() {
             </a>
           </nav>
 
-          {/* Desktop sign in links */}
-          <ul className="flex flex-1 items-center justify-end gap-4">
-            <li>
-              <Link
-                to="/signin"
-                className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
-              >
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/signup"
-                className="btn-sm bg-blue-600 text-white shadow-md hover:bg-blue-500 transition-all duration-150"
-              >
-                Register
-              </Link>
-            </li>
-          </ul>
+          {/* Desktop sign in links / user profile */}
+          <div className="flex flex-1 items-center justify-end gap-4">
+            {isLoading ? (
+              <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            ) : user ? (
+              <div className="flex items-center gap-4">
+                <Link
+                  to="/dashboard"
+                  className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                >
+                  Dashboard
+                </Link>
+                <DropdownProfile align="right" dark={true} />
+              </div>
+            ) : (
+              <ul className="flex items-center gap-4">
+                <li>
+                  <Link
+                    to="/signin"
+                    className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                  >
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/signup"
+                    className="btn-sm bg-blue-600 text-white shadow-md hover:bg-blue-500 transition-all duration-150"
+                  >
+                    Register
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </div>
         </div>
       </div>
     </header>

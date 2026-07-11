@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const ThemeContext = createContext({
   currentTheme: 'light',
@@ -8,6 +9,7 @@ const ThemeContext = createContext({
 export default function ThemeProvider({children}) {  
   const persistedTheme = localStorage.getItem('theme');
   const [theme, setTheme] = useState(persistedTheme || 'light');
+  const location = useLocation();
 
   const changeCurrentTheme = (newTheme) => {
     setTheme(newTheme);
@@ -16,7 +18,12 @@ export default function ThemeProvider({children}) {
 
   useEffect(() => {
     document.documentElement.classList.add('**:transition-none!');
-    if (theme === 'light') {
+    
+    // Force light theme on the landing page (/) to avoid styling corruption
+    const isLanding = location.pathname === '/';
+    const activeTheme = isLanding ? 'light' : theme;
+
+    if (activeTheme === 'light') {
       document.documentElement.classList.remove('dark');
       document.documentElement.style.colorScheme = 'light';
     } else {
@@ -29,7 +36,7 @@ export default function ThemeProvider({children}) {
     }, 1);
     
     return () => clearTimeout(transitionTimeout);
-  }, [theme]);
+  }, [theme, location.pathname]);
 
   return <ThemeContext.Provider value={{ currentTheme: theme, changeCurrentTheme }}>{children}</ThemeContext.Provider>;
 }
