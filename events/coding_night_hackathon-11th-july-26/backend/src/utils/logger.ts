@@ -22,22 +22,7 @@ const transports: winston.transport[] = [
   }),
 ];
 
-// File transports — local development only (Vercel has no persistent filesystem)
-if (!isVercel) {
-  transports.push(
-    new winston.transports.File({
-      filename: path.join(logDir, 'error.log'),
-      level: 'error',
-      maxsize: 5 * 1024 * 1024, // 5MB
-      maxFiles: 5,
-    }),
-    new winston.transports.File({
-      filename: path.join(logDir, 'combined.log'),
-      maxsize: 10 * 1024 * 1024, // 10MB
-      maxFiles: 5,
-    })
-  );
-}
+// File transports removed to prevent read-only filesystem crashes on Vercel
 
 export const logger = winston.createLogger({
   level: config.logLevel,

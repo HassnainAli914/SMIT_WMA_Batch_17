@@ -1,13 +1,3 @@
-import Logo01 from "/images/logo-01.svg";
-import Logo02 from "/images/logo-02.svg";
-import Logo03 from "/images/logo-03.svg";
-import Logo04 from "/images/logo-04.svg";
-import Logo05 from "/images/logo-05.svg";
-import Logo06 from "/images/logo-06.svg";
-import Logo07 from "/images/logo-07.svg";
-import Logo08 from "/images/logo-08.svg";
-import Logo09 from "/images/logo-09.svg";
-
 export default function BusinessCategories() {
   return (
     <section id="categories">
@@ -19,7 +9,7 @@ export default function BusinessCategories() {
               Integrate with your favorite tools
             </h2>
             <p className="mt-4 text-lg text-slate-600">
-              Connect Simple with the software you already use to sync databases, track progress, and automate tasks.
+              Connect MaintainIQ with the software you already use to sync databases, track progress, and automate facility workflows.
             </p>
           </div>
 
@@ -188,7 +178,7 @@ export default function BusinessCategories() {
                 <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white shadow-lg shadow-black/[0.03] before:absolute before:inset-0 before:m-[8.334%] before:rounded-[inherit] before:border before:border-gray-700/5 before:bg-gray-200/60 before:[mask-image:linear-gradient(to_bottom,black,transparent)]">
                   <img 
                     className="relative"
-                    src={Logo01}
+                    src="/images/logo-01.svg"
                     width={32}
                     height={32}
                     alt="Logo 01"
@@ -204,7 +194,7 @@ export default function BusinessCategories() {
                     <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-lg shadow-black/[0.03] before:absolute before:inset-0 before:m-[8.334%] before:rounded-[inherit] before:border before:border-gray-700/5 before:bg-gray-200/60 before:[mask-image:linear-gradient(to_bottom,black,transparent)]">
                       <img 
                         className="relative"
-                        src={Logo02}
+                        src="/images/logo-02.svg"
                         width={23}
                         height={22}
                         alt="Logo 02"
@@ -217,7 +207,7 @@ export default function BusinessCategories() {
                     <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-lg shadow-black/[0.03] before:absolute before:inset-0 before:m-[8.334%] before:rounded-[inherit] before:border before:border-gray-700/5 before:bg-gray-200/60 before:[mask-image:linear-gradient(to_bottom,black,transparent)]">
                       <img 
                         className="relative"
-                        src={Logo03}
+                        src="/images/logo-03.svg"
                         width={22}
                         height={22}
                         alt="Logo 03"
@@ -230,7 +220,7 @@ export default function BusinessCategories() {
                     <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-lg shadow-black/[0.03] before:absolute before:inset-0 before:m-[8.334%] before:rounded-[inherit] before:border before:border-gray-700/5 before:bg-gray-200/60 before:[mask-image:linear-gradient(to_bottom,black,transparent)]">
                       <img 
                         className="relative"
-                        src={Logo04}
+                        src="/images/logo-04.svg"
                         width={24}
                         height={22}
                         alt="Logo 04"
@@ -243,7 +233,7 @@ export default function BusinessCategories() {
                     <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-lg shadow-black/[0.03] before:absolute before:inset-0 before:m-[8.334%] before:rounded-[inherit] before:border before:border-gray-700/5 before:bg-gray-200/60 before:[mask-image:linear-gradient(to_bottom,black,transparent)]">
                       <img 
                         className="relative"
-                        src={Logo05}
+                        src="/images/logo-05.svg"
                         width={25}
                         height={25}
                         alt="Logo 05"
@@ -256,7 +246,7 @@ export default function BusinessCategories() {
                     <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-lg shadow-black/[0.03] before:absolute before:inset-0 before:m-[8.334%] before:rounded-[inherit] before:border before:border-gray-700/5 before:bg-gray-200/60 before:[mask-image:linear-gradient(to_bottom,black,transparent)]">
                       <img 
                         className="relative"
-                        src={Logo06}
+                        src="/images/logo-06.svg"
                         width={20}
                         height={18}
                         alt="Logo 06"
@@ -269,7 +259,7 @@ export default function BusinessCategories() {
                     <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-lg shadow-black/[0.03] before:absolute before:inset-0 before:m-[8.334%] before:rounded-[inherit] before:border before:border-gray-700/5 before:bg-gray-200/60 before:[mask-image:linear-gradient(to_bottom,black,transparent)]">
                       <img 
                         className="relative"
-                        src={Logo07}
+                        src="/images/logo-07.svg"
                         width={25}
                         height={25}
                         alt="Logo 07"
@@ -282,7 +272,7 @@ export default function BusinessCategories() {
                     <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-200/60 bg-white shadow-lg">
                       <img 
                         className="relative"
-                        src={Logo08}
+                        src="/images/logo-08.svg"
                         width={20}
                         height={20}
                         alt="Logo 08"
@@ -295,7 +285,7 @@ export default function BusinessCategories() {
                     <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-200/60 bg-white shadow-lg">
                       <img 
                         className="relative"
-                        src={Logo09}
+                        src="/images/logo-09.svg"
                         width={21}
                         height={13}
                         alt="Logo 09"

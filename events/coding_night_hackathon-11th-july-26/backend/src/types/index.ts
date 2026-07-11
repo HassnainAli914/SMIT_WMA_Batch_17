@@ -16,7 +16,7 @@ export interface AuthRequest extends Request {
   session?: Session;
 }
 
-export type OtpType = 'sms' | 'email' | 'phone_change' | 'email_change';
+export type OtpType = 'sms' | 'email' | 'phone_change' | 'email_change' | 'signup';
 
 export interface SignUpPayload {
   email: string;

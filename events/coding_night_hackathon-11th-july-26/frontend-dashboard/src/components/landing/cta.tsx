@@ -1,6 +1,3 @@
-
-import Stripes from "/images/stripes-dark.svg";
-
 export default function Cta() {
   return (
     <section>
@@ -23,7 +20,7 @@ export default function Cta() {
           >
             <img 
               className="max-w-none"
-              src={Stripes}
+              src="/images/stripes-dark.svg"
               width={768}
               height={432}
               alt="Stripes"
@@ -31,7 +28,7 @@ export default function Cta() {
           </div>
           <div className="px-4 py-12 md:px-12 md:py-20">
             <h2 className="mb-6 border-y text-3xl font-bold text-gray-200 [border-image:linear-gradient(to_right,transparent,--theme(--color-slate-700/.7),transparent)1] md:mb-12 md:text-4xl">
-              Create your next project with Simple
+              Start managing your facility with MaintainIQ
             </h2>
             <div className="mx-auto max-w-xs sm:flex sm:max-w-none sm:justify-center">
               <a

@@ -20,14 +20,14 @@ export const createCategory = asyncHandler(async (req: AuthRequest, res: Respons
 });
 
 export const updateCategory = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
-  const id = req.params.id;
+  const id = req.params.id as string;
   const { name, description, icon } = req.body;
   const category = await categoryService.updateCategory(id, { name, description, icon });
   ApiResponse.success(res, { category }, 'Category updated successfully');
 });
 
 export const deleteCategory = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
-  const id = req.params.id;
+  const id = req.params.id as string;
   await categoryService.deleteCategory(id);
   ApiResponse.success(res, null, 'Category deleted successfully');
 });

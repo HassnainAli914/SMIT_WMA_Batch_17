@@ -1,7 +1,3 @@
-
-
-import Stripes from "/images/stripes.svg";
-
 export default function PageIllustration() {
   return (
     <>
@@ -12,10 +8,9 @@ export default function PageIllustration() {
       >
         <img 
           className="max-w-none"
-          src={Stripes}
+          src="/images/stripes.svg"
           width={768}
           alt="Stripes"
-          priority
         />
       </div>
       {/* Circles */}
