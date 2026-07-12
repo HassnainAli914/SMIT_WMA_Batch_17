@@ -1,6 +1,12 @@
 let app: any;
 let initError: any;
 
+// Force Vercel to bundle Express internals that it sometimes drops by accident
+require('express/lib/router');
+require('express/lib/middleware/init');
+require('express/lib/middleware/query');
+
+
 try {
   app = require('../src/server').default;
 } catch (error) {
