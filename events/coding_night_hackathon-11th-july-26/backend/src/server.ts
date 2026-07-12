@@ -155,5 +155,4 @@ process.on('uncaughtException', (error) => {
 
 // ─── Export for Vercel ───────────────────────────
 export default app;
-module.exports = app;
 
