@@ -96,6 +96,9 @@ app.get('/health', (_req, res) => {
   });
 });
 
+// Handle favicon.ico requests silently
+app.get('/favicon.ico', (_req, res) => res.status(204).end());
+
 // ─── API Routes ──────────────────────────────────
 
 app.use('/api', apiRoutes);
