@@ -2,12 +2,18 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import dns from 'dns';
 import { config } from './config';
 import { logger } from './utils/logger';
 import { generalLimiter } from './middleware/rateLimiter';
 import { requestSanitizer } from './middleware/requestSanitizer';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import apiRoutes from './routes';
+
+// ─── Configure DNS Resolution Order ────────────────
+// Forces Node.js 18+ to resolve IPv4 addresses first.
+// This resolves the "TypeError: fetch failed" when connecting to Supabase on IPv4-only networks.
+dns.setDefaultResultOrder('ipv4first');
 
 // ─── Create Express App ──────────────────────────
 
@@ -37,7 +43,10 @@ app.use(
         /^http:\/\/10\.\d+\.\d+\.\d+(:\d+)?$/.test(origin) ||
         /^http:\/\/172\.(1[6-9]|2\d|3[0-1])\.\d+\.\d+(:\d+)?$/.test(origin);
 
-      if (isLocal || allowedOrigins.includes(origin)) {
+      // Allow Vercel deployments (e.g. https://assets-frontend-flame.vercel.app)
+      const isVercel = origin.startsWith('https://') && origin.endsWith('.vercel.app');
+
+      if (isLocal || isVercel || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
 
