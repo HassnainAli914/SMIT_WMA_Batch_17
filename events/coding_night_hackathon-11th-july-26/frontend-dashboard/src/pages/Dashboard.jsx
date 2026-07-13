@@ -1,150 +1,250 @@
-import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
-import FilterButton from '../components/DropdownFilter';
-import Datepicker from '../components/Datepicker';
-import DashboardCard01 from '../partials/dashboard/DashboardCard01';
-import DashboardCard02 from '../partials/dashboard/DashboardCard02';
-import DashboardCard03 from '../partials/dashboard/DashboardCard03';
-import DashboardCard04 from '../partials/dashboard/DashboardCard04';
-import DashboardCard05 from '../partials/dashboard/DashboardCard05';
-import DashboardCard06 from '../partials/dashboard/DashboardCard06';
-import DashboardCard07 from '../partials/dashboard/DashboardCard07';
-import DashboardCard08 from '../partials/dashboard/DashboardCard08';
-import DashboardCard09 from '../partials/dashboard/DashboardCard09';
-import DashboardCard10 from '../partials/dashboard/DashboardCard10';
-import DashboardCard11 from '../partials/dashboard/DashboardCard11';
-import DashboardCard12 from '../partials/dashboard/DashboardCard12';
-import DashboardCard13 from '../partials/dashboard/DashboardCard13';
+import { api } from '../utils/api';
+import { useAuth } from '../contexts/AuthContext';
 
 function Dashboard() {
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { profile } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        setLoading(true);
+        const res = await api.get('/api/analytics/summary');
+        if (res.success) {
+          setStats(res.data.summary);
+        } else {
+          setError(res.message || 'Failed to fetch analytics data');
+        }
+      } catch (err) {
+        setError('An error occurred while fetching data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount || 0);
+  };
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Operational': return 'bg-emerald-100 text-emerald-600 dark:bg-emerald-400/20 dark:text-emerald-400';
+      case 'Under Inspection': return 'bg-amber-100 text-amber-600 dark:bg-amber-400/20 dark:text-amber-400';
+      case 'In Maintenance': return 'bg-blue-100 text-blue-600 dark:bg-blue-400/20 dark:text-blue-400';
+      case 'Issue Reported': return 'bg-rose-100 text-rose-600 dark:bg-rose-400/20 dark:text-rose-400';
+      case 'Out of Service': return 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-400';
+      // issue statuses
+      case 'Reported': return 'bg-rose-100 text-rose-600 dark:bg-rose-400/20 dark:text-rose-400';
+      case 'Assigned': return 'bg-blue-100 text-blue-600 dark:bg-blue-400/20 dark:text-blue-400';
+      case 'In Progress': return 'bg-amber-100 text-amber-600 dark:bg-amber-400/20 dark:text-amber-400';
+      case 'Resolved': return 'bg-emerald-100 text-emerald-600 dark:bg-emerald-400/20 dark:text-emerald-400';
+      case 'Closed': return 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-400';
+      default: return 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400';
+    }
+  };
+
+  const getPriorityColor = (priority) => {
+    switch (priority) {
+      case 'High': return 'bg-rose-500 text-white';
+      case 'Medium': return 'bg-amber-500 text-white';
+      case 'Low': return 'bg-emerald-500 text-white';
+      default: return 'bg-gray-500 text-white';
+    }
+  };
 
   return (
-    <div className="flex h-screen overflow-hidden">
-
-      {/* Sidebar */}
+    <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-      {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-
-        {/*  Site header */}
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-        <main className="grow flex flex-col">
-          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto grow">
+        <main className="grow">
+          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
             
-            {/* Page Header (Welcome Banner) */}
-            <div className="relative bg-violet-200 dark:bg-violet-900/20 p-4 sm:p-6 rounded-xs overflow-hidden mb-8">
-              {/* Background illustration */}
-              <div className="absolute right-0 top-0 -mt-4 mr-16 pointer-events-none hidden xl:block" aria-hidden="true">
-                <svg width="319" height="198" xmlnsXlink="http://www.w3.org/1999/xlink">
-                  <defs>
-                    <path id="welcome-a" d="M64 0l64 128-64-20-64 20z" />
-                    <path id="welcome-e" d="M40 0l40 80-40-12.5L0 80z" />
-                    <path id="welcome-g" d="M40 0l40 80-40-12.5L0 80z" />
-                    <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="welcome-b">
-                      <stop stopColor="#A5B4FC" offset="0%" />
-                      <stop stopColor="#818CF8" offset="100%" />
-                    </linearGradient>
-                    <linearGradient x1="50%" y1="24.537%" x2="50%" y2="100%" id="welcome-c">
-                      <stop stopColor="#4338CA" offset="0%" />
-                      <stop stopColor="#6366F1" stopOpacity="0" offset="100%" />
-                    </linearGradient>
-                  </defs>
-                  <g fill="none" fillRule="evenodd">
-                    <g transform="rotate(64 36.592 105.604)">
-                      <mask id="welcome-d" fill="#fff">
-                        <use xlinkHref="#welcome-a" />
-                      </mask>
-                      <use fill="url(#welcome-b)" xlinkHref="#welcome-a" />
-                      <path fill="url(#welcome-c)" mask="url(#welcome-d)" d="M64-24h80v152H64z" />
-                    </g>
-                    <g transform="rotate(-51 91.324 -105.372)">
-                      <mask id="welcome-f" fill="#fff">
-                        <use xlinkHref="#welcome-e" />
-                      </mask>
-                      <use fill="url(#welcome-b)" xlinkHref="#welcome-e" />
-                      <path fill="url(#welcome-c)" mask="url(#welcome-f)" d="M40.333-15.147h50v95h-50z" />
-                    </g>
-                    <g transform="rotate(44 61.546 392.623)">
-                      <mask id="welcome-h" fill="#fff">
-                        <use xlinkHref="#welcome-g" />
-                      </mask>
-                      <use fill="url(#welcome-b)" xlinkHref="#welcome-g" />
-                      <path fill="url(#welcome-c)" mask="url(#welcome-h)" d="M40.333-15.147h50v95h-50z" />
-                    </g>
-                  </g>
-                </svg>
-              </div>
-              {/* Content */}
-              <div className="relative">
-                <h1 className="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold mb-1">
-                  Good afternoon, {profile?.name ? profile.name.split(' ')[0] : 'User'} 👋
-                </h1>
-                <p className="dark:text-gray-300">Here is what's happening with your assets today:</p>
-              </div>
-            </div>
-
-            {/* Dashboard actions */}
+            {/* Dashboard Header */}
             <div className="sm:flex sm:justify-between sm:items-center mb-8">
-              {/* Left: Title */}
               <div className="mb-4 sm:mb-0">
-                <h2 className="text-xl md:text-2xl text-gray-800 dark:text-gray-100 font-bold">Overview</h2>
-              </div>
-              {/* Right: Actions */}
-              <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
-                {/* Filter button */}
-                <FilterButton align="right" />
-                {/* Datepicker built with React Day Picker */}
-                <Datepicker align="right" />
-                {/* Add view button */}
-                <button className="btn bg-gray-900 text-gray-100 hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-white">
-                  <svg className="fill-current shrink-0 xs:hidden" width="16" height="16" viewBox="0 0 16 16">
-                    <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
-                  </svg>
-                  <span className="max-xs:sr-only">Add View</span>
-                </button>                
+                <h1 className="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">Dashboard Overview</h1>
+                <p className="text-sm text-gray-500 mt-1">Welcome back, {profile?.name || 'User'}! Here's what's happening.</p>
               </div>
             </div>
 
-            {/* Cards */}
-            <div className="grid grid-cols-12 gap-6">
-              <DashboardCard01 />
-              <DashboardCard02 />
-              <DashboardCard03 />
-              <DashboardCard04 />
-              <DashboardCard05 />
-              <DashboardCard06 />
-              <DashboardCard07 />
-              <DashboardCard08 />
-              <DashboardCard09 />
-              <DashboardCard10 />
-              <DashboardCard11 />
-              <DashboardCard12 />
-              <DashboardCard13 />
-            </div>
-          </div>
-          
-          {/* Page Footer */}
-          <footer className="w-full bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700/60 text-sm text-gray-500 dark:text-gray-400">
-            <div className="px-4 sm:px-6 lg:px-8 py-6 w-full max-w-9xl mx-auto">
-              <div className="sm:flex sm:items-center sm:justify-between">
-                <div className="flex justify-center sm:justify-start mb-4 sm:mb-0">
-                  <div className="text-sm font-medium">MaintainIQ © 2026. All rights reserved.</div>
-                </div>
-                <div className="flex justify-center sm:justify-end gap-4 font-medium">
-                  <a href="#0" className="hover:text-violet-500 transition duration-150">Terms</a>
-                  <a href="#0" className="hover:text-violet-500 transition duration-150">Privacy</a>
-                  <a href="#0" className="hover:text-violet-500 transition duration-150">Help</a>
-                </div>
+            {loading ? (
+              <div className="flex justify-center items-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-violet-500"></div>
               </div>
-            </div>
-          </footer>
+            ) : error ? (
+              <div className="bg-rose-100 text-rose-600 p-4 rounded-lg flex items-center">
+                <svg className="w-6 h-6 mr-3 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                {error}
+              </div>
+            ) : stats ? (
+              <div className="space-y-6">
+                
+                {/* Top Stat Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {/* Total Assets */}
+                  <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-5 flex flex-col relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 dark:opacity-5">
+                      <svg className="w-16 h-16 fill-violet-500" viewBox="0 0 24 24"><path d="M20 7h-4V5c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zM10 5h4v2h-4V5zm10 14H4V9h16v10z"/></svg>
+                    </div>
+                    <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">Total Assets</h2>
+                    <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-2">{stats?.assets?.total || 0}</div>
+                  </div>
+
+                  {/* Open Issues */}
+                  <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-5 flex flex-col relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 dark:opacity-5">
+                      <svg className="w-16 h-16 fill-rose-500" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                    </div>
+                    <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">Open Issues</h2>
+                    <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-2">{stats?.issues?.unresolved || 0}</div>
+                    <div className="text-sm text-gray-500 mt-2"><span className="text-rose-500 font-medium">{stats?.issues?.unassigned || 0}</span> unassigned</div>
+                  </div>
+
+                  {/* Maintenance Spend */}
+                  <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-5 flex flex-col relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 dark:opacity-5">
+                      <svg className="w-16 h-16 fill-emerald-500" viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+                    </div>
+                    <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">Maintenance Spend</h2>
+                    <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-2">{formatCurrency(stats?.maintenance?.totalCost || 0)}</div>
+                    <div className="text-sm text-gray-500 mt-2">{stats?.maintenance?.totalRecords || 0} records</div>
+                  </div>
+
+                  {/* Total Users */}
+                  <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-5 flex flex-col relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 dark:opacity-5">
+                      <svg className="w-16 h-16 fill-blue-500" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                    </div>
+                    <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">Total Users</h2>
+                    <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mt-2">{stats?.users?.total || 0}</div>
+                  </div>
+                </div>
+
+                {/* Status Breakdown Row */}
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-5">
+                  <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4">Asset Status Breakdown</h2>
+                  <div className="flex flex-wrap gap-3">
+                    {Object.entries(stats?.assets?.byStatus || {}).map(([status, count]) => (
+                      <div key={status} className={`px-4 py-2 rounded-full flex items-center shadow-sm border border-gray-100 dark:border-gray-700 ${getStatusColor(status)?.split(' ')[0] || ''} ${getStatusColor(status)?.split(' ')[1] || ''} bg-opacity-10 dark:bg-opacity-10`}>
+                        <span className="w-2 h-2 rounded-full mr-2 currentColor bg-current"></span>
+                        <span className="font-medium mr-2">{status}:</span>
+                        <span className="font-bold">{count}</span>
+                      </div>
+                    ))}
+                    {Object.keys(stats?.assets?.byStatus || {}).length === 0 && (
+                      <p className="text-gray-500 italic">No asset status data available.</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Recent Issues */}
+                  <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col">
+                    <div className="p-5 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
+                      <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">Recent Issues</h2>
+                      <NavLink to="/issues" className="text-sm text-violet-500 hover:text-violet-600 font-medium">View All &rarr;</NavLink>
+                    </div>
+                    <div className="overflow-x-auto grow">
+                      {stats?.issues?.recent?.length > 0 ? (
+                        <table className="w-full text-sm text-left">
+                          <thead className="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-gray-700/50 dark:text-gray-400">
+                            <tr>
+                              <th className="px-4 py-3 font-semibold">Title</th>
+                              <th className="px-4 py-3 font-semibold">Asset</th>
+                              <th className="px-4 py-3 font-semibold">Status</th>
+                              <th className="px-4 py-3 font-semibold">Date</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {(stats?.issues?.recent || []).map((issue) => (
+                              <tr key={issue?.id || Math.random()} className="border-b border-gray-100 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                                <td className="px-4 py-3">
+                                  <div className="font-medium text-gray-800 dark:text-gray-200">{issue?.title}</div>
+                                  <div className="mt-1">
+                                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getPriorityColor(issue?.priority)}`}>
+                                      {issue?.priority}
+                                    </span>
+                                  </div>
+                                </td>
+                                <td className="px-4 py-3 text-gray-600 dark:text-gray-400">
+                                  {issue?.asset?.name || '-'} <br/>
+                                  <span className="text-xs text-gray-400">{issue?.asset?.code || ''}</span>
+                                </td>
+                                <td className="px-4 py-3">
+                                  <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(issue?.status)}`}>
+                                    {issue?.status}
+                                  </span>
+                                </td>
+                                <td className="px-4 py-3 text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                                  {issue?.created_at ? formatDate(issue.created_at) : '-'}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      ) : (
+                        <div className="p-6 text-center text-gray-500">No recent issues found.</div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Recent Assets */}
+                  <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col">
+                    <div className="p-5 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
+                      <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">Recently Added Assets</h2>
+                      <NavLink to="/assets" className="text-sm text-violet-500 hover:text-violet-600 font-medium">View All &rarr;</NavLink>
+                    </div>
+                    <div className="p-4 flex flex-col gap-3 grow">
+                      {stats?.assets?.recent?.length > 0 ? (
+                        (stats?.assets?.recent || []).map((asset) => (
+                          <div key={asset?.id || Math.random()} className="flex items-center justify-between p-3 rounded-lg border border-gray-100 dark:border-gray-700 hover:shadow-sm transition-shadow">
+                            <div className="flex items-center space-x-4">
+                              <div className="w-10 h-10 rounded-full bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center text-violet-500 shrink-0">
+                                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path d="M7 12h2v5H7zm4-3h2v8h-2zm4-3h2v11h-2z"/></svg>
+                              </div>
+                              <div>
+                                <h3 className="font-semibold text-gray-800 dark:text-gray-100">{asset?.name}</h3>
+                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Code: {asset?.code} • {asset?.location || 'No location'}</p>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(asset?.status)}`}>
+                                {asset?.status}
+                              </span>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="p-6 text-center text-gray-500">No recent assets found.</div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            ) : null}
+
+          </div>
         </main>
       </div>
     </div>

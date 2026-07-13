@@ -1,5 +1,5 @@
 import React from 'react';
-import DoughnutChart from '../../charts/DoughnutChart';
+import DoughnutChart from '../../charts/DoughnutChartV2';
 
 // Import utilities
 import { getCssVariable } from '../../utils/Utils';

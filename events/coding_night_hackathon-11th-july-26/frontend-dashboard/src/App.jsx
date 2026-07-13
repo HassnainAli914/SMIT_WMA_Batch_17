@@ -26,6 +26,7 @@ import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import TechnicianConsole from './pages/TechnicianConsole';
 import MaintenanceRecords from './pages/MaintenanceRecords';
 import PrivateRoute from './components/PrivateRoute';
+import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
 
@@ -38,7 +39,7 @@ function App() {
   }, [location.pathname]); // triggered on route change
 
   return (
-    <>
+    <ErrorBoundary>
       <Routes>
         <Route exact path="/" element={<Landing />} />
         <Route path="/dashboard" element={
@@ -92,7 +93,7 @@ function App() {
           </PrivateRoute>
         } />
       </Routes>
-    </>
+    </ErrorBoundary>
   );
 }
 

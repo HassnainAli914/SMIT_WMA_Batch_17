@@ -21,12 +21,24 @@ function BarChart01({
   const [chart, setChart] = useState(null)
   const canvas = useRef(null);
   const legend = useRef(null);
+  const chartInstance = useRef(null);
   const { currentTheme } = useThemeProvider();
   const darkMode = currentTheme === 'dark';
   const { textColor, gridColor, tooltipBodyColor, tooltipBgColor, tooltipBorderColor } = chartColors;
 
   useEffect(() => {
     const ctx = canvas.current;
+    
+    // Destroy any existing chart instance on this canvas to prevent "Canvas is already in use" error
+    if (chartInstance.current) {
+      chartInstance.current.destroy();
+    }
+    
+    const existingChart = Chart.getChart(ctx);
+    if (existingChart) {
+      existingChart.destroy();
+    }
+
     // eslint-disable-next-line no-unused-vars
     const newChart = new Chart(ctx, {
       type: 'bar',
@@ -163,7 +175,12 @@ function BarChart01({
       ],
     });
     setChart(newChart);
-    return () => newChart.destroy();
+    chartInstance.current = newChart;
+    
+    return () => {
+      newChart.destroy();
+      chartInstance.current = null;
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

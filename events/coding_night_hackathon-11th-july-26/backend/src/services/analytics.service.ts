@@ -6,93 +6,55 @@ export class AnalyticsService {
   async getSummary() {
     const supabase = getSupabaseAdmin();
 
-    // ─── Total Assets + Status Breakdown ─────────────────
-    const { data: assets, error: assetsErr } = await supabase
-      .from('assets')
-      .select('id, status, condition');
+    const [
+      { data: assets, error: assetsErr },
+      { data: issues, error: issuesErr },
+      { data: maintenance, error: mainErr },
+      { data: profiles, error: profilesErr },
+    ] = await Promise.all([
+      supabase.from('assets').select('id, name, code, status, location, created_at').order('created_at', { ascending: false }),
+      supabase.from('issues').select('id, status, priority, title, created_at, asset_id, assigned_technician_id, asset:assets(name, code)').order('created_at', { ascending: false }),
+      supabase.from('maintenance_records').select('id, cost, time_spent, created_at'),
+      supabase.from('profiles').select('id, role'),
+    ]);
 
-    if (assetsErr) {
-      logger.error(`Analytics assets error: ${assetsErr.message}`);
-      throw new AppError('Failed to fetch asset analytics', 500);
-    }
+    if (assetsErr) { logger.error(`Analytics assets error: ${assetsErr.message}`); throw new AppError('Failed to load analytics', 500); }
+    if (issuesErr) { logger.error(`Analytics issues error: ${issuesErr.message}`); throw new AppError('Failed to load analytics', 500); }
+    if (mainErr)   { logger.error(`Analytics maintenance error: ${mainErr.message}`); throw new AppError('Failed to load analytics', 500); }
 
+    // Assets
     const totalAssets = assets?.length || 0;
-    const assetStatusBreakdown: Record<string, number> = {};
-    const assetConditionBreakdown: Record<string, number> = {};
-    (assets || []).forEach((a: any) => {
-      assetStatusBreakdown[a.status] = (assetStatusBreakdown[a.status] || 0) + 1;
-      assetConditionBreakdown[a.condition] = (assetConditionBreakdown[a.condition] || 0) + 1;
-    });
+    const assetsByStatus: Record<string, number> = {};
+    (assets || []).forEach(a => { assetsByStatus[a.status] = (assetsByStatus[a.status] || 0) + 1; });
+    const recentAssets = (assets || []).slice(0, 5);
 
-    // ─── Issues Stats ────────────────────────────────────
-    const { data: issues, error: issuesErr } = await supabase
-      .from('issues')
-      .select('id, status, priority, assigned_technician_id, created_at');
-
-    if (issuesErr) {
-      logger.error(`Analytics issues error: ${issuesErr.message}`);
-      throw new AppError('Failed to fetch issue analytics', 500);
-    }
-
+    // Issues
     const totalIssues = issues?.length || 0;
-    const issueStatusBreakdown: Record<string, number> = {};
-    const issuePriorityBreakdown: Record<string, number> = {};
-    let unassignedIssues = 0;
-    let openIssues = 0;
-
-    (issues || []).forEach((i: any) => {
-      issueStatusBreakdown[i.status] = (issueStatusBreakdown[i.status] || 0) + 1;
-      issuePriorityBreakdown[i.priority] = (issuePriorityBreakdown[i.priority] || 0) + 1;
-
-      if (!i.assigned_technician_id && i.status !== 'Resolved' && i.status !== 'Closed') {
-        unassignedIssues++;
-      }
-      if (i.status !== 'Resolved' && i.status !== 'Closed') {
-        openIssues++;
-      }
+    const issuesByStatus: Record<string, number> = {};
+    const issuesByPriority: Record<string, number> = {};
+    (issues || []).forEach(i => {
+      issuesByStatus[i.status]   = (issuesByStatus[i.status] || 0) + 1;
+      issuesByPriority[i.priority] = (issuesByPriority[i.priority] || 0) + 1;
     });
+    const unresolvedIssues = (issues || []).filter(i => i.status !== 'Resolved' && i.status !== 'Closed').length;
+    const unassignedIssues = (issues || []).filter(i => i.status === 'Reported').length;
+    const recentIssues = (issues || []).slice(0, 8);
 
-    // ─── Maintenance Cost Total ──────────────────────────
-    const { data: maintenance, error: maintErr } = await supabase
-      .from('maintenance_records')
-      .select('cost, time_spent');
+    // Maintenance
+    const totalMaintenanceCost = (maintenance || []).reduce((sum, r) => sum + (Number(r.cost) || 0), 0);
+    const totalTimeSpent = (maintenance || []).reduce((sum, r) => sum + (Number(r.time_spent) || 0), 0);
+    const totalMaintenanceRecords = maintenance?.length || 0;
 
-    if (maintErr) {
-      logger.error(`Analytics maintenance error: ${maintErr.message}`);
-      throw new AppError('Failed to fetch maintenance analytics', 500);
-    }
-
-    let totalMaintenanceCost = 0;
-    let totalTimeSpent = 0;
-    (maintenance || []).forEach((m: any) => {
-      totalMaintenanceCost += Number(m.cost) || 0;
-      totalTimeSpent += Number(m.time_spent) || 0;
-    });
-
-    // ─── Recent Activity ────────────────────────────────
-    const { data: recentActivity, error: activityErr } = await supabase
-      .from('asset_history')
-      .select('*, actor:profiles!actor_id(id, name, role), asset:assets!asset_id(id, name, code)')
-      .order('created_at', { ascending: false })
-      .limit(15);
-
-    if (activityErr) {
-      logger.error(`Analytics activity error: ${activityErr.message}`);
-    }
+    // Users by role
+    const usersByRole: Record<string, number> = {};
+    (profiles || []).forEach(p => { usersByRole[p.role] = (usersByRole[p.role] || 0) + 1; });
+    const totalUsers = profiles?.length || 0;
 
     return {
-      totalAssets,
-      assetStatusBreakdown,
-      assetConditionBreakdown,
-      totalIssues,
-      openIssues,
-      unassignedIssues,
-      issueStatusBreakdown,
-      issuePriorityBreakdown,
-      totalMaintenanceCost,
-      totalTimeSpent,
-      totalMaintenanceRecords: maintenance?.length || 0,
-      recentActivity: recentActivity || [],
+      assets:      { total: totalAssets, byStatus: assetsByStatus, recent: recentAssets },
+      issues:      { total: totalIssues, unresolved: unresolvedIssues, unassigned: unassignedIssues, byStatus: issuesByStatus, byPriority: issuesByPriority, recent: recentIssues },
+      maintenance: { totalCost: totalMaintenanceCost, totalTimeSpent, totalRecords: totalMaintenanceRecords },
+      users:       { total: totalUsers, byRole: usersByRole },
     };
   }
 }

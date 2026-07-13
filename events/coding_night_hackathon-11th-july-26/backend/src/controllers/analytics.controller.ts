@@ -6,5 +6,5 @@ import { AuthRequest } from '../types';
 
 export const getSummary = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
   const summary = await analyticsService.getSummary();
-  ApiResponse.success(res, { summary }, 'Analytics summary retrieved successfully');
+  ApiResponse.success(res, { summary }, 'Analytics summary loaded');
 });

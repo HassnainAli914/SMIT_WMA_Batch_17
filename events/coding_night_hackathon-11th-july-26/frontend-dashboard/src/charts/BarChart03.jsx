@@ -27,6 +27,13 @@ function BarChart03({
 
   useEffect(() => {
     const ctx = canvas.current;
+    
+    // Destroy any existing chart instance on this canvas to prevent "Canvas is already in use" error (React 18 Strict Mode)
+    const existingChart = Chart.getChart(ctx);
+    if (existingChart) {
+      existingChart.destroy();
+    }
+
     // eslint-disable-next-line no-unused-vars
     const newChart = new Chart(ctx, {
       type: 'bar',
