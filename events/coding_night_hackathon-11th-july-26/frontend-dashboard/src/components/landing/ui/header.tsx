@@ -36,13 +36,6 @@ export default function Header() {
               Home
             </a>
             <a
-              href="/#categories"
-              onClick={(e) => handleScroll(e, "categories")}
-              className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
-            >
-              Categories
-            </a>
-            <a
               href="/#features"
               onClick={(e) => handleScroll(e, "features")}
               className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
@@ -56,13 +49,18 @@ export default function Header() {
             >
               Pricing
             </a>
-            <a
-              href="/#testimonials"
-              onClick={(e) => handleScroll(e, "testimonials")}
+            <Link
+              to="/checkout"
               className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
             >
-              Testimonials
-            </a>
+              Checkout
+            </Link>
+            <Link
+              to="/public/asset/123"
+              className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+            >
+              Public Asset
+            </Link>
           </nav>
 
           {/* Desktop sign in links / user profile */}

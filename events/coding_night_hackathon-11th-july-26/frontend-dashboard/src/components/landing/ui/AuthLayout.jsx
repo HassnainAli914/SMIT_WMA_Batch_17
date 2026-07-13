@@ -1,22 +1,14 @@
 import React from "react";
-import Logo from "./logo";
 import TerminalTyping from "./TerminalTyping";
+import Header from "./header";
+import Footer from "./footer";
 
 export default function AuthLayout({ children }) {
   return (
     <div className="flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip bg-white text-gray-900">
-      <header className="absolute z-30 w-full">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="flex h-16 items-center justify-between md:h-20">
-            {/* Site branding */}
-            <div className="mr-4 shrink-0">
-              <Logo />
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
-      <main className="relative flex grow">
+      <main className="relative flex grow mt-16 md:mt-24">
         <div
           className="pointer-events-none absolute bottom-0 left-0 -translate-x-1/3"
           aria-hidden="true"
@@ -29,7 +21,7 @@ export default function AuthLayout({ children }) {
           <div className="flex h-full flex-col justify-center before:min-h-[4rem] before:flex-1 after:flex-1 md:before:min-h-[5rem]">
             <div className="px-4 sm:px-6">
               <div className="mx-auto w-full max-w-sm">
-                <div className="py-16 md:py-20">{children}</div>
+                <div className="py-8 md:py-12">{children}</div>
               </div>
             </div>
           </div>
@@ -70,6 +62,8 @@ export default function AuthLayout({ children }) {
           </div>
         </div>
       </main>
+
+      <Footer border={true} />
     </div>
   );
 }

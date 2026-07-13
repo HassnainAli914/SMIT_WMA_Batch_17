@@ -5,7 +5,7 @@ import { asyncHandler } from '../utils/asyncHandler';
 import { AuthRequest } from '../types';
 
 export const createIssue = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
-  const { asset_id, title, description, priority, category, reporter_name, reporter_email } = req.body;
+  const { asset_id, title, description, priority, category, reporter_name, reporter_email, skip_background_ai, possible_solution } = req.body;
 
   const ticket = await issueService.createIssue({
     asset_id,
@@ -15,9 +15,21 @@ export const createIssue = asyncHandler(async (req: AuthRequest, res: Response):
     category,
     reporter_name,
     reporter_email,
+    skip_background_ai,
+    possible_solution
   });
 
-  ApiResponse.created(res, { ticket }, 'Issue reported successfully');
+  const msg = skip_background_ai 
+    ? 'AI recommended issue reported successfully.' 
+    : 'Issue reported successfully. AI analysis is processing in the background.';
+
+  ApiResponse.created(res, { ticket }, msg);
+});
+
+export const retryAi = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
+  const id = req.params.id as string;
+  const result = await issueService.retryAiAnalysis(id);
+  ApiResponse.success(res, result, 'AI Analysis retry triggered');
 });
 
 export const assignIssue = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
@@ -83,4 +95,33 @@ export const deleteIssue = asyncHandler(async (req: AuthRequest, res: Response):
   const id = req.params.id as string;
   await issueService.deleteIssue(id);
   ApiResponse.success(res, null, 'Issue deleted successfully');
+});
+
+import { aiService } from '../services/ai.service';
+
+export const analyzeDraft = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
+  const { title, description } = req.body;
+  if (!description) {
+    ApiResponse.error(res, 'Description is required for AI analysis', 400);
+    return;
+  }
+
+  const analysis = await aiService.analyzeReportOpenRouter(title || 'Draft Issue', description);
+  if (!analysis) {
+    ApiResponse.error(res, 'AI Analysis failed. Please try submitting manually.', 500);
+    return;
+  }
+
+  ApiResponse.success(res, { analysis }, 'Draft analyzed successfully');
+});
+
+export const trackIssue = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
+  const ticketNumber = req.params.ticketNumber as string;
+  if (!ticketNumber) {
+    ApiResponse.error(res, 'Ticket number is required', 400);
+    return;
+  }
+
+  const ticket = await issueService.getIssueByTicketNumber(ticketNumber);
+  ApiResponse.success(res, { ticket }, 'Ticket tracked successfully');
 });

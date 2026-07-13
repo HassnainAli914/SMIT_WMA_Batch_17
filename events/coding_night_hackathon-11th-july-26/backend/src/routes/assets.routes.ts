@@ -7,9 +7,9 @@ const router = Router();
 // Publicly accessible QR endpoint
 router.get('/code/:code', optionalAuth, assetsController.getAssetByCode);
 
-// Protected routes (Admin + Technician)
-router.get('/', requireAuth, assetsController.listAssets);
-router.get('/:id', requireAuth, assetsController.getAssetById);
+// List assets (Public/Protected depending on usage)
+router.get('/', optionalAuth, assetsController.listAssets);
+router.get('/:id', optionalAuth, assetsController.getAssetById);
 router.get('/:id/history', requireAuth, assetsController.getAssetHistory);
 
 // Admin-only management routes

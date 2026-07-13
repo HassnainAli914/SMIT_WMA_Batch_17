@@ -1,6 +1,7 @@
 import { getSupabaseAdmin } from '../config/supabase';
 import { AppError } from '../middleware/errorHandler';
 import { logger } from '../utils/logger';
+import { aiService } from './ai.service';
 
 export class IssueService {
   async createIssue(payload: {
@@ -11,6 +12,8 @@ export class IssueService {
     category: string;
     reporter_name?: string;
     reporter_email?: string;
+    skip_background_ai?: boolean;
+    possible_solution?: string;
   }) {
     const supabase = getSupabaseAdmin();
 
@@ -29,6 +32,14 @@ export class IssueService {
         reporter_name: payload.reporter_name || 'Anonymous',
         reporter_email: payload.reporter_email || null,
         status: 'Reported',
+        ...(payload.skip_background_ai ? {
+          ai_status: 'Completed',
+          ai_title: payload.title,
+          ai_description: payload.description + (payload.possible_solution ? `\n\n**Possible Solution:**\n${payload.possible_solution}` : ''),
+          ai_category: payload.category,
+          ai_priority: payload.priority,
+          ai_processed_at: new Date().toISOString()
+        } : {})
       })
       .select()
       .single();
@@ -38,7 +49,67 @@ export class IssueService {
       throw new AppError('Failed to record issue ticket', 500);
     }
 
+    if (!payload.skip_background_ai) {
+      // Trigger AI processing in the background (fire-and-forget)
+      this.processIssueAi(data.id, data.title, data.description).catch(err => {
+        logger.error(`Background AI processing failed for issue ${data.id}:`, err);
+      });
+    }
+
     return data;
+  }
+
+  private async processIssueAi(issueId: string, title: string, description: string) {
+    const supabase = getSupabaseAdmin();
+
+    // Ensure status is pending
+    await supabase.from('issues').update({ ai_status: 'Pending' }).eq('id', issueId);
+
+    try {
+      const aiResult = await aiService.analyzeReportOpenRouter(title, description);
+
+      if (!aiResult) {
+        throw new Error('AI Service returned null or failed.');
+      }
+
+      await supabase.from('issues').update({
+        ai_title: aiResult.title,
+        ai_summary: aiResult.summary,
+        ai_description: aiResult.description,
+        ai_category: aiResult.category,
+        ai_priority: aiResult.priority,
+        ai_keywords: aiResult.keywords,
+        ai_missing_information: aiResult.missing_information,
+        ai_status: 'Completed',
+        ai_processed_at: new Date().toISOString()
+      }).eq('id', issueId);
+      
+      logger.info(`AI Processing completed for issue ${issueId}`);
+    } catch (error: any) {
+      logger.error(`AI Processing error for issue ${issueId}:`, error);
+      await supabase.from('issues').update({ ai_status: 'Failed' }).eq('id', issueId);
+    }
+  }
+
+  async retryAiAnalysis(id: string) {
+    const supabase = getSupabaseAdmin();
+    
+    const { data: ticket, error } = await supabase
+      .from('issues')
+      .select('title, description')
+      .eq('id', id)
+      .single();
+
+    if (error || !ticket) {
+      throw new AppError('Issue not found', 404);
+    }
+
+    // Trigger async processing and return immediately
+    this.processIssueAi(id, ticket.title, ticket.description).catch(err => {
+      logger.error(`Retry AI processing failed for issue ${id}:`, err);
+    });
+
+    return { message: 'AI Analysis retry triggered' };
   }
 
   async assignIssue(id: string, technicianId: string) {
@@ -274,6 +345,22 @@ export class IssueService {
     }
 
     return true;
+  }
+
+  async getIssueByTicketNumber(ticketNumber: string) {
+    const supabase = getSupabaseAdmin();
+
+    const { data, error } = await supabase
+      .from('issues')
+      .select('id, issue_number, title, description, status, priority, category, created_at, updated_at, asset:assets(name, code, location)')
+      .eq('issue_number', ticketNumber)
+      .single();
+
+    if (error || !data) {
+      throw new AppError('Ticket not found or invalid ticket number', 404);
+    }
+
+    return data;
   }
 }
 

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function Cta() {
   return (
     <section>
@@ -30,18 +32,36 @@ export default function Cta() {
             <h2 className="mb-6 border-y text-3xl font-bold text-gray-200 [border-image:linear-gradient(to_right,transparent,--theme(--color-slate-700/.7),transparent)1] md:mb-12 md:text-4xl">
               Start managing your facility with MaintainIQ
             </h2>
-            <div className="mx-auto max-w-xs sm:flex sm:max-w-none sm:justify-center">
-              <a
-                className="btn group mb-4 w-full bg-linear-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] bg-[bottom] text-white shadow-sm hover:bg-[length:100%_150%] sm:mb-0 sm:w-auto"
-                href="#0"
+            <div className="mx-auto max-w-xs sm:flex sm:max-w-none sm:justify-center sm:gap-4 flex-wrap gap-y-4">
+              <Link
+                className="btn group w-full bg-linear-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] bg-[bottom] text-white shadow-sm hover:bg-[length:100%_150%] sm:w-auto"
+                to="/signup"
               >
                 <span className="relative inline-flex items-center">
-                  Start Free Trial{" "}
+                  Register{" "}
                   <span className="ml-1 tracking-normal text-blue-300 transition-transform group-hover:translate-x-0.5">
                     -&gt;
                   </span>
                 </span>
-              </a>
+              </Link>
+              <Link
+                className="btn w-full bg-white text-gray-800 shadow-sm hover:bg-gray-50 sm:w-auto"
+                to="/signin"
+              >
+                Sign In
+              </Link>
+              <Link
+                className="btn w-full bg-gray-800 text-white shadow-sm hover:bg-gray-700 sm:w-auto border border-gray-700"
+                to="/checkout"
+              >
+                Checkout
+              </Link>
+              <Link
+                className="btn w-full bg-gray-800 text-white shadow-sm hover:bg-gray-700 sm:w-auto border border-gray-700"
+                to="/public/asset/123"
+              >
+                Asset Demo
+              </Link>
             </div>
           </div>
         </div>

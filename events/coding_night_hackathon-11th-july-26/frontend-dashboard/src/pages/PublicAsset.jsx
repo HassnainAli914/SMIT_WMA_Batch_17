@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../utils/api';
+import Header from '../components/landing/ui/header';
+import Footer from '../components/landing/ui/footer';
 
 function PublicAsset() {
   const { id } = useParams();
@@ -162,12 +164,10 @@ function PublicAsset() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <header className="bg-white border-b border-gray-200 p-4 text-center">
-        <h1 className="text-xl font-bold text-violet-600 tracking-tight">MaintainIQ</h1>
-      </header>
+    <div className="min-h-screen bg-gray-50 flex flex-col supports-[overflow:clip]:overflow-clip">
+      <Header />
       
-      <main className="flex-1 max-w-md w-full mx-auto p-4 flex flex-col gap-6">
+      <main className="flex-1 max-w-md w-full mx-auto p-4 pt-24 flex flex-col gap-6">
         
         {/* Status Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 text-center mt-6">
@@ -374,6 +374,7 @@ function PublicAsset() {
           </div>
         )}
       </main>
+      <Footer border={true} />
     </div>
   );
 }
