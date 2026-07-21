@@ -6,20 +6,25 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 8000;
 
-connectDatabase()
-
-app.get("/", (req, res) => {
-    res.send({
-        Database: "Connected Successfully"
-    })
-});
+try {
+  if (connectDatabase()) {
+    app.get("/", (req, res) => {
+      res.send({
+        Database: "Connected Successfully",
+      });
+    });
+  }
+} catch (error) {
+    console.log(error.message);
+    
+}
 
 app.get("/user", (req, res) => {
-    res.send({
-        name: "Hassnain Ali",
-        age: "17",
-        email: "hassnain@gmail.com",
-    })
+  res.send({
+    name: "Hassnain Ali",
+    age: "17",
+    email: "hassnain@gmail.com",
+  });
 });
 
 // app.use("/user",)
