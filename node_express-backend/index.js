@@ -9,7 +9,9 @@ const port = process.env.PORT || 8000;
 connectDatabase()
 
 app.get("/", (req, res) => {
-    res.send(new Date())
+    res.send({
+        Database: "Connected Successfully"
+    })
 });
 
 app.get("/user", (req, res) => {
