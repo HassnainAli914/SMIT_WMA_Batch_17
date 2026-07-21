@@ -22,6 +22,7 @@ import Issues from './pages/Issues';
 import ReportIssue from './pages/ReportIssue';
 import AssetDetails from './pages/AssetDetails';
 import PublicAsset from './pages/PublicAsset';
+import TrackReport from './pages/TrackReport';
 import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import TechnicianConsole from './pages/TechnicianConsole';
 import MaintenanceRecords from './pages/MaintenanceRecords';
@@ -83,6 +84,7 @@ function App() {
           </PrivateRoute>
         } />
         <Route path="/public/asset/:id" element={<PublicAsset />} />
+        <Route path="/trackreport" element={<TrackReport />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />

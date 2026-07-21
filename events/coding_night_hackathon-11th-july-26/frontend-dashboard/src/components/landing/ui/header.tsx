@@ -61,6 +61,12 @@ export default function Header() {
             >
               Public Asset
             </Link>
+            <Link
+              to="/trackreport"
+              className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+            >
+              Track Report
+            </Link>
           </nav>
 
           {/* Desktop sign in links / user profile */}
