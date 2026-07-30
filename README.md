@@ -3,9 +3,9 @@
 **Course Name:** Modern Web Application Development (WMA)  
 **Institute:** Saylani Mass IT Training (SMIT) — by Saylani Welfare Trust  
 **Campus:** Zaitoon Ashraf IT Park, Karachi  
-**Batch:** 17  
+**Batch:** 17 - 18  
 **Roll No:** 410508  
-**Class Schedule:** Monday, Wednesday, Friday — 01:00 PM to 03:00 PM  
+**Class Schedule:** Monday, Wednesday, Friday — 09:00 AM to 11:00 AM
 **First Class:** April 28, 2025  
 **Current Progress:** ~43% Completed  
 
