@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Form</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="card">
+        <h1 class="page-title">Register todo</h1>
+
+        <form action="/submit" method="post" class="user-form">
+          <div class="field-group">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" required />
+          </div>
+
+          <!-- <div class="field-group">
+            <label for="status">Completed</label> -->
+            <!-- <input type="checkbox" name="status" value="true" id="status" />
+          </div> -->
+
+          <button type="submit" class="submit-btn">Submit</button>
+        </form>
+      </section>
+
+      <section class="card users-card">
+        <h2 class="section-title">Available todos <span>(<%= Array.isArray(todos) ? todos.length : 0 %>)</span></h2>
+
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+              <% todos.forEach((todo, index) => { %>
+                <tr>
+                  <td><%= todo.title %></td>
+                  <td>
+                    <form action="/status" method="post" style="display:inline;">
+                      <input type="hidden" name="index" value="<%= index %>">
+                      <input
+                        type="checkbox"
+                        name="status"
+                        value="true"
+                        <%= todo.status ? 'checked' : '' %>
+                        onchange="this.form.submit()"
+                      />
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>
