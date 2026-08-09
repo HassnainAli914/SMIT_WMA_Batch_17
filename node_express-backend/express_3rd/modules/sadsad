@@ -1,0 +1,2 @@
+$supabaseUrl = "https://pkdlxwfpizfyjhvangrd.supabase.co"
+$anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBrZGx4d2ZwaXpmeWpodmFuZ3JkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4MTg1NjYsImV4cCI6MjEwMDM5NDU2Nn0.XPsc6M_R9h2Ru8rjQMWyHRdlohmUUDC91BE79knhfhE"

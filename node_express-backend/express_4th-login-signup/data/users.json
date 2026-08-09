@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1786307046597,
+    "email": "testuser@example.com",
+    "password": "$2b$10$aN3i7Q1XAYX235eT9X2yP.8BMBDjjO.8FttEtt3NR4C4TpSbhNaKS"
+  },
+  {
+    "id": "1786311817886",
+    "email": "user_1786311817477@example.com",
+    "password": "$2b$10$Q0bdPwJGl2TJEJLGqQ69QO55XmXcdADrim91mnUaPrDCoIPn9DnTa",
+    "createdAt": "2026-08-09T21:43:37.886Z"
+  }
+]

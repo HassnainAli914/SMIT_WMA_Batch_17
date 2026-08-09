@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authentication Portal</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-box">
+      <h2>Account Access</h2>
+      <div class="tab-buttons">
+        <button id="tab-login" class="active" onclick="showTab('login')">Login</button>
+        <button id="tab-signup" onclick="showTab('signup')">Sign Up</button>
+      </div>
+
+      <form id="auth-form" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" required placeholder="user@example.com">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required placeholder="••••••••">
+        </div>
+        <button type="submit" id="submit-btn">Login</button>
+      </form>
+
+      <div id="response-msg" class="message"></div>
+    </div>
+  </div>
+
+  <script>
+    let mode = 'login';
+
+    function showTab(selectedMode) {
+      mode = selectedMode;
+      document.getElementById('tab-login').className = mode === 'login' ? 'active' : '';
+      document.getElementById('tab-signup').className = mode === 'signup' ? 'active' : '';
+      document.getElementById('submit-btn').textContent = mode === 'login' ? 'Login' : 'Sign Up';
+      document.getElementById('response-msg').textContent = '';
+      document.getElementById('response-msg').className = 'message';
+    }
+
+    async function handleSubmit(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const msgBox = document.getElementById('response-msg');
+
+      const endpoint = mode === 'signup' ? '/signup' : '/login';
+
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        msgBox.textContent = data.message || JSON.stringify(data);
+        msgBox.className = res.ok ? 'message success' : 'message error';
+      } catch (err) {
+        msgBox.textContent = 'Network error occurred';
+        msgBox.className = 'message error';
+      }
+    }
+  </script>
+</body>
+</html>
