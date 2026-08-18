@@ -15,11 +15,11 @@ export default function CartPage({
 
   const subtotal = cart.reduce((acc, item) => {
     const price = Number(item.price) || 0;
-    const qty = Number(item.qty) || 1;
+    const qty = Number(item.quantity || item.qty) || 1;
     return acc + price * qty;
   }, 0);
 
-  const discount = promoApplied ? subtotal * 0.2 : (subtotal * 0.2); // 20% discount default in Shop.co design
+  const discount = promoApplied ? subtotal * 0.2 : subtotal * 0.2;
   const delivery = cart.length > 0 ? 15 : 0;
   const total = Math.max(0, subtotal - discount + delivery);
 
@@ -54,15 +54,14 @@ export default function CartPage({
         </div>
       ) : (
         <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row justify-between items-start gap-8">
-          {/* Cart Items List */}
           <div className="w-full lg:w-[62%] bg-white border border-gray-200 rounded-[24px] p-4 sm:p-6 space-y-6 shadow-sm">
             {cart.map((item, index) => {
               const itemPrice = Number(item.price) || 0;
-              const itemQty = Number(item.qty) || 1;
+              const itemQty = Number(item.quantity || item.qty) || 1;
 
               return (
                 <div
-                  key={item.uuid || item.id || index}
+                  key={item.id || item.productId || index}
                   className={`flex justify-between items-center gap-4 pb-6 ${
                     index !== cart.length - 1 ? "border-b border-gray-100" : ""
                   }`}
@@ -96,7 +95,7 @@ export default function CartPage({
 
                   <div className="flex flex-col justify-between items-end h-[80px] sm:h-[100px]">
                     <button
-                      onClick={() => onRemoveItem && onRemoveItem(item.uuid || item.id)}
+                      onClick={() => onRemoveItem && onRemoveItem(item.id)}
                       className="text-red-500 hover:text-red-700 p-1 transition-colors"
                       title="Remove item"
                     >
@@ -107,7 +106,7 @@ export default function CartPage({
                       <button
                         onClick={() =>
                           onUpdateQty &&
-                          onUpdateQty(item.uuid || item.id, Math.max(1, itemQty - 1))
+                          onUpdateQty(item.id, Math.max(1, itemQty - 1))
                         }
                         className="text-gray-700 hover:text-black font-bold"
                       >
@@ -119,7 +118,7 @@ export default function CartPage({
                       <button
                         onClick={() =>
                           onUpdateQty &&
-                          onUpdateQty(item.uuid || item.id, itemQty + 1)
+                          onUpdateQty(item.id, itemQty + 1)
                         }
                         className="text-gray-700 hover:text-black font-bold"
                       >
@@ -132,7 +131,6 @@ export default function CartPage({
             })}
           </div>
 
-          {/* Order Summary */}
           <div className="w-full lg:w-[35%] bg-white border border-gray-200 rounded-[24px] p-6 space-y-5 shadow-sm sticky top-28">
             <h2 className="text-xl font-extrabold text-black">Order Summary</h2>
 
@@ -155,7 +153,6 @@ export default function CartPage({
               </div>
             </div>
 
-            {/* Promo Code Input */}
             <div className="flex gap-2 pt-2">
               <input
                 type="text"

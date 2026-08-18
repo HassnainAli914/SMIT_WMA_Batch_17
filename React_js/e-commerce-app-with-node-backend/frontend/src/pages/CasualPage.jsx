@@ -12,117 +12,24 @@ const star = [
   <FaStar key={5} />,
 ];
 
-const DEFAULT_CASUAL_PRODUCTS = [
-  {
-    _id: "c-1",
-    name: "Gradient Graphic T-shirt",
-    price: 145,
-    discountPercent: 0,
-    category: "tshirt",
-    colors: ["Red", "Blue", "Yellow"],
-    sizes: ["S", "M", "L"],
-    image: "/images/arrival-img.png",
-  },
-  {
-    _id: "c-2",
-    name: "Polo with Tipping Details",
-    price: 180,
-    discountPercent: 0,
-    category: "tshirt",
-    colors: ["Green", "Blue"],
-    sizes: ["M", "L", "XL"],
-    image: "/images/arrival-img1.png",
-  },
-  {
-    _id: "c-3",
-    name: "Black Striped T-shirt",
-    price: 120,
-    discountPercent: 30,
-    category: "tshirt",
-    colors: ["Black", "Orange"],
-    sizes: ["S", "M", "L", "XXL"],
-    image: "/images/arrival-img4.png",
-  },
-  {
-    _id: "c-4",
-    name: "Skinny Fit Jeans",
-    price: 240,
-    discountPercent: 20,
-    category: "jeans",
-    colors: ["Blue"],
-    sizes: ["M", "L", "XL"],
-    image: "/images/arrival-img2.png",
-  },
-  {
-    _id: "c-5",
-    name: "Checkered Shirt",
-    price: 180,
-    discountPercent: 0,
-    category: "shirt",
-    colors: ["Red", "Blue"],
-    sizes: ["M", "L"],
-    image: "/images/arrival-img3.png",
-  },
-  {
-    _id: "c-6",
-    name: "Sleeve Striped T-shirt",
-    price: 130,
-    discountPercent: 30,
-    category: "tshirt",
-    colors: ["Orange"],
-    sizes: ["S", "M", "L"],
-    image: "/images/might4.png",
-  },
-  {
-    _id: "c-7",
-    name: "Vertical Striped Shirt",
-    price: 212,
-    discountPercent: 20,
-    category: "shirt",
-    colors: ["Green"],
-    sizes: ["M", "L", "XL"],
-    image: "/images/sell1.png",
-  },
-  {
-    _id: "c-8",
-    name: "Courage Graphic T-shirt",
-    price: 145,
-    discountPercent: 0,
-    category: "tshirt",
-    colors: ["Orange"],
-    sizes: ["S", "M", "L", "XL"],
-    image: "/images/sell2.png",
-  },
-  {
-    _id: "c-9",
-    name: "Loose Fit Bermuda Shorts",
-    price: 80,
-    discountPercent: 0,
-    category: "short",
-    colors: ["Blue"],
-    sizes: ["S", "M", "L"],
-    image: "/images/sell3.png",
-  },
-];
-
 export default function CasualPage({
   products = [],
+  currentUser,
+  onDeleteProduct,
   onSelectProduct,
   onNavigate,
 }) {
-  const allProducts = products.length > 0 ? products : DEFAULT_CASUAL_PRODUCTS;
-
   const [filters, setFilters] = useState({
     category: "",
-    priceRange: [50, 250],
+    priceRange: [0, 500],
     colors: [],
     sizes: [],
   });
 
-  const [filteredProducts, setFilteredProducts] = useState(allProducts);
+  const [filteredProducts, setFilteredProducts] = useState(products);
 
   useEffect(() => {
-    let list = allProducts;
+    let list = products;
 
     if (filters.category) {
       list = list.filter(
@@ -151,7 +58,7 @@ export default function CasualPage({
     }
 
     setFilteredProducts(list);
-  }, [filters, allProducts]);
+  }, [filters, products]);
 
   const handleFilterChange = (type, value) => {
     if (type === "colors" || type === "sizes") {
@@ -179,7 +86,6 @@ export default function CasualPage({
       <BreadcrumbCollapsed current="Casual" onNavigate={onNavigate} />
 
       <div className="flex flex-col md:flex-row justify-center items-start gap-6 mt-4">
-        {/* Sidebar Filters */}
         <div className="w-full md:w-1/3 lg:w-1/4 bg-white border border-gray-200 p-6 rounded-2xl shadow-sm">
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-extrabold text-xl text-black">Filters</h3>
@@ -187,7 +93,7 @@ export default function CasualPage({
               onClick={() =>
                 setFilters({
                   category: "",
-                  priceRange: [50, 250],
+                  priceRange: [0, 500],
                   colors: [],
                   sizes: [],
                 })
@@ -198,7 +104,6 @@ export default function CasualPage({
             </button>
           </div>
 
-          {/* Categories */}
           <div className="mb-6 border-b border-gray-100 pb-5">
             <h4 className="font-bold text-sm mb-3">Categories</h4>
             <ul className="space-y-2 text-sm text-gray-600">
@@ -218,15 +123,14 @@ export default function CasualPage({
             </ul>
           </div>
 
-          {/* Price Range */}
           <div className="mb-6 border-b border-gray-100 pb-5">
             <h4 className="font-bold text-sm mb-3">Price</h4>
             <div className="space-y-2">
               <input
                 type="range"
                 className="w-full accent-black cursor-pointer"
-                min="50"
-                max="250"
+                min="0"
+                max="500"
                 value={filters.priceRange[1]}
                 onChange={(e) =>
                   handleFilterChange("priceRange", [
@@ -242,7 +146,6 @@ export default function CasualPage({
             </div>
           </div>
 
-          {/* Colors */}
           <div className="mb-6 border-b border-gray-100 pb-5">
             <h4 className="font-bold text-sm mb-3">Colors</h4>
             <div className="flex flex-wrap gap-2">
@@ -253,6 +156,7 @@ export default function CasualPage({
                 { name: "Orange", bg: "#F97316" },
                 { name: "Yellow", bg: "#EAB308" },
                 { name: "Purple", bg: "#A855F7" },
+                { name: "Black", bg: "#1F2937" },
               ].map((c) => (
                 <div
                   key={c.name}
@@ -272,7 +176,6 @@ export default function CasualPage({
             </div>
           </div>
 
-          {/* Sizes */}
           <div className="mb-4">
             <h4 className="font-bold text-sm mb-3">Sizes</h4>
             <div className="flex flex-wrap gap-2">
@@ -293,7 +196,6 @@ export default function CasualPage({
           </div>
         </div>
 
-        {/* Product Grid */}
         <div className="w-full md:w-2/3 lg:w-3/4">
           <div className="flex justify-between items-center mb-6 pl-2">
             <h2 className="text-2xl sm:text-3xl font-extrabold">Casual</h2>
@@ -308,13 +210,13 @@ export default function CasualPage({
           {filteredProducts.length === 0 ? (
             <div className="text-center py-20 bg-gray-50 rounded-2xl">
               <p className="text-gray-500 font-semibold">
-                No products match the selected filters.
+                No products found.
               </p>
               <button
                 onClick={() =>
                   setFilters({
                     category: "",
-                    priceRange: [50, 250],
+                    priceRange: [0, 500],
                     colors: [],
                     sizes: [],
                   })
@@ -326,50 +228,64 @@ export default function CasualPage({
             </div>
           ) : (
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {filteredProducts.map((data, index) => (
-                <div
-                  key={data._id || data.id || index}
-                  onClick={() => onSelectProduct && onSelectProduct(data)}
-                  className="cursor-pointer group"
-                >
-                  <div className="w-full h-[180px] sm:h-[240px] md:h-[290px] bg-[#F0EEED] rounded-[20px] overflow-hidden flex items-center justify-center p-4">
-                    <img
-                      src={
-                        data.image ||
-                        `/images/might${(index % 4) + 1}.png`
-                      }
-                      alt={data.name}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 rounded-[20px]"
-                      onError={(e) => {
-                        e.target.src = `/images/might${(index % 4) + 1}.png`;
-                      }}
-                    />
-                  </div>
-                  <div className="pt-3">
-                    <p className="text-sm sm:text-base font-bold truncate">
-                      {data.name}
-                    </p>
-                    <div className="flex text-yellow-400 text-xs sm:text-sm mt-1">
-                      {star.map((icon, idx) => (
-                        <span key={idx}>{icon}</span>
-                      ))}
+              {filteredProducts.map((data, index) => {
+                const isOwner = currentUser && currentUser.uid === data.userId;
+                return (
+                  <div
+                    key={data.id || data._id || index}
+                    onClick={() => onSelectProduct && onSelectProduct(data)}
+                    className="cursor-pointer group relative"
+                  >
+                    <div className="w-full h-[180px] sm:h-[240px] md:h-[290px] bg-[#F0EEED] rounded-[20px] overflow-hidden flex items-center justify-center p-4">
+                      <img
+                        src={
+                          data.image ||
+                          `/images/might${(index % 4) + 1}.png`
+                        }
+                        alt={data.name}
+                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 rounded-[20px]"
+                        onError={(e) => {
+                          e.target.src = `/images/might${(index % 4) + 1}.png`;
+                        }}
+                      />
                     </div>
-                    <p className="font-bold mt-1 text-sm sm:text-base flex items-center gap-2">
-                      ${data.price}
-                      {data.discountPercent > 0 && (
-                        <span className="text-gray-400 font-normal line-through text-xs">
-                          ${Math.round(data.price * 1.3)}
-                        </span>
+                    <div className="pt-3">
+                      <p className="text-sm sm:text-base font-bold truncate">
+                        {data.name}
+                      </p>
+                      <div className="flex text-yellow-400 text-xs sm:text-sm mt-1">
+                        {star.map((icon, idx) => (
+                          <span key={idx}>{icon}</span>
+                        ))}
+                      </div>
+                      <p className="font-bold mt-1 text-sm sm:text-base flex items-center gap-2">
+                        ${data.price}
+                        {data.discountPercent > 0 && (
+                          <span className="text-gray-400 font-normal line-through text-xs">
+                            ${Math.round(data.price * 1.3)}
+                          </span>
+                        )}
+                        {data.discountPercent > 0 && (
+                          <span className="bg-red-100 text-red-600 text-[10px] sm:text-xs px-2 py-0.5 rounded-full font-semibold">
+                            -{data.discountPercent}%
+                          </span>
+                        )}
+                      </p>
+                      {isOwner && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onDeleteProduct(data.id);
+                          }}
+                          className="mt-2 text-xs bg-red-500 text-white px-2.5 py-1 rounded-md hover:bg-red-600"
+                        >
+                          Delete
+                        </button>
                       )}
-                      {data.discountPercent > 0 && (
-                        <span className="bg-red-100 text-red-600 text-[10px] sm:text-xs px-2 py-0.5 rounded-full font-semibold">
-                          -{data.discountPercent}%
-                        </span>
-                      )}
-                    </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
 

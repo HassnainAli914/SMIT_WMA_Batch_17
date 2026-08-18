@@ -3,7 +3,6 @@ import React from "react";
 export default function Hero({ onNavigate }) {
   return (
     <main className="bg-[#F2F0F1] mt-24 md:mt-28 lg:h-[615px] md:px-10 sm:pt-4 flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-start max-w-screen-2xl mx-auto overflow-hidden">
-      {/* Left */}
       <div className="md:pl-0 lg:w-[600px] space-y-5 sm:pt-7 mt-6 px-4">
         <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight">
           FIND CLOTHES THAT MATCHES YOUR STYLE
@@ -36,7 +35,6 @@ export default function Hero({ onNavigate }) {
         </div>
       </div>
 
-      {/* Right */}
       <div className="relative mt-8 lg:mt-0 flex justify-center items-end">
         <img
           src="/profile.png"
@@ -48,7 +46,7 @@ export default function Hero({ onNavigate }) {
         />
         <img
           src="/images/star.png"
-          className="w-[50px] sm:w-[80px] absolute top-[40px] right-6 animate-pulse"
+          className="w-[50px] sm:w-[80px] absolute top-[40px] right-6"
           alt="star"
           onError={(e) => {
             e.target.style.display = "none";
@@ -56,7 +54,7 @@ export default function Hero({ onNavigate }) {
         />
         <img
           src="/images/star.png"
-          className="w-[35px] sm:w-[50px] absolute top-[200px] left-[10px] sm:left-[-20px] animate-pulse"
+          className="w-[35px] sm:w-[50px] absolute top-[200px] left-[10px] sm:left-[-20px]"
           alt="star"
           onError={(e) => {
             e.target.style.display = "none";

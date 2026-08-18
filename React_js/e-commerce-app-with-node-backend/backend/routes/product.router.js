@@ -13,9 +13,9 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/add", async (req, res) => {
-  const { name, price, userId } = req.body;
+  const { name, price, userId, category, image, description } = req.body;
   try {
-    const product = await addProduct(name, price, userId);
+    const product = await addProduct(name, price, userId, category, image, description);
     res.status(201).json({ message: "Product added successfully", product });
   } catch (error) {
     res.status(400).json({ error: error.message });

@@ -15,30 +15,33 @@ const star = [
 
 export default function ProductDetailPage({
   product,
+  products = [],
   onAddToCart,
   onSelectProduct,
   onNavigate,
 }) {
-  const currentProduct = product || {
-    _id: "default-p",
-    name: "ONE LIFE GRAPHIC T-SHIRT",
-    price: 260,
-    discountPercent: 40,
-    description:
-      "This graphic t-shirt which is perfect for any occasion. Crafted from a soft and breathable fabric, it offers superior comfort and style.",
-    colors: ["#4F4631", "#314F4A", "#31354F"],
-    sizes: ["Small", "Medium", "Large", "X-Large"],
-    image: "/images/arrival-img.png",
-  };
+  if (!product) {
+    return (
+      <div className="mt-32 max-w-screen-xl mx-auto px-4 text-center py-20">
+        <h2 className="text-2xl font-bold mb-4">No product selected</h2>
+        <button
+          onClick={() => onNavigate && onNavigate("casual")}
+          className="bg-black text-white px-6 py-3 rounded-full text-sm font-semibold"
+        >
+          Browse Products
+        </button>
+      </div>
+    );
+  }
 
   const [selectedImage, setSelectedImage] = useState(
-    currentProduct.image || "/images/arrival-img.png"
+    product.image || "/images/might1.png"
   );
   const [selectedColor, setSelectedColor] = useState(
-    currentProduct.colors?.[0] || "#4F4631"
+    product.colors?.[0] || "Black"
   );
   const [selectedSize, setSelectedSize] = useState(
-    currentProduct.sizes?.[2] || "Large"
+    product.sizes?.[0] || "Large"
   );
   const [quantity, setQuantity] = useState(1);
   const [addedToast, setAddedToast] = useState(false);
@@ -46,14 +49,13 @@ export default function ProductDetailPage({
   const handleAdd = () => {
     if (onAddToCart) {
       onAddToCart({
-        id: currentProduct._id || currentProduct.id,
-        name: currentProduct.name,
-        price: currentProduct.price,
+        id: product.id || product._id,
+        name: product.name,
+        price: product.price,
         image: selectedImage,
         color: selectedColor,
         size: selectedSize,
-        qty: quantity,
-        discount: currentProduct.discountPercent || 0,
+        quantity: quantity,
       });
       setAddedToast(true);
       setTimeout(() => setAddedToast(false), 3000);
@@ -61,7 +63,7 @@ export default function ProductDetailPage({
   };
 
   const thumbs = [
-    currentProduct.image || "/images/arrival-img.png",
+    product.image || "/images/might1.png",
     "/images/arrival-img1.png",
     "/images/arrival-img3.png",
   ];
@@ -69,14 +71,12 @@ export default function ProductDetailPage({
   return (
     <div className="mt-24 md:mt-28 lg:mt-32 max-w-screen-2xl mx-auto px-4">
       <BreadcrumbCollapsed
-        current={currentProduct.name}
+        current={product.name}
         onNavigate={onNavigate}
       />
 
       <div className="flex h-full flex-col md:flex-row justify-center items-start gap-8 lg:gap-12 max-w-screen-xl mx-auto mt-6">
-        {/* Thumbnails + Main Image */}
         <div className="w-full md:w-1/2 flex flex-col-reverse sm:flex-row gap-4">
-          {/* Thumbnails */}
           <div className="flex sm:flex-col gap-3 justify-center">
             {thumbs.map((src, i) => (
               <div
@@ -98,23 +98,21 @@ export default function ProductDetailPage({
             ))}
           </div>
 
-          {/* Main Large Image */}
           <div className="flex-1 bg-[#F0EEED] rounded-3xl overflow-hidden h-[340px] sm:h-[420px] md:h-[480px] flex items-center justify-center p-6">
             <img
               src={selectedImage}
-              alt={currentProduct.name}
+              alt={product.name}
               className="w-full h-full object-contain rounded-2xl"
               onError={(e) => {
-                e.target.src = "/images/arrival-img.png";
+                e.target.src = "/images/might1.png";
               }}
             />
           </div>
         </div>
 
-        {/* Product Info */}
         <div className="w-full md:w-1/2 space-y-4">
           <h1 className="text-2xl sm:text-4xl font-extrabold uppercase tracking-tight">
-            {currentProduct.name}
+            {product.name}
           </h1>
 
           <div className="flex items-center gap-2">
@@ -130,59 +128,54 @@ export default function ProductDetailPage({
 
           <div className="flex items-center space-x-3 pt-1">
             <span className="text-2xl sm:text-3xl font-extrabold">
-              ${currentProduct.price * quantity}
+              ${product.price * quantity}
             </span>
-            {currentProduct.discountPercent > 0 && (
+            {product.discountPercent > 0 && (
               <span className="text-xl sm:text-2xl font-bold text-gray-400 line-through">
-                ${Math.round(currentProduct.price * 1.4) * quantity}
+                ${Math.round(product.price * 1.4) * quantity}
               </span>
             )}
-            {currentProduct.discountPercent > 0 && (
+            {product.discountPercent > 0 && (
               <span className="bg-red-100 text-red-600 text-xs px-2.5 py-1 rounded-full font-bold">
-                -{currentProduct.discountPercent}%
+                -{product.discountPercent}%
               </span>
             )}
           </div>
 
           <p className="text-sm text-gray-600 leading-relaxed border-b border-gray-100 pb-5">
-            {currentProduct.description ||
-              "This graphic t-shirt is perfect for any occasion. Crafted from a soft and breathable fabric, it offers superior comfort and style."}
+            {product.description ||
+              "This quality garment is crafted from soft and breathable fabric, offering superior comfort and style."}
           </p>
 
-          {/* Select Colors */}
           <div className="border-b border-gray-100 pb-5">
             <p className="text-xs font-semibold text-gray-500 mb-2.5">
               Select Colors
             </p>
             <div className="flex space-x-3">
-              {(currentProduct.colors || ["#4F4631", "#314F4A", "#31354F"]).map(
+              {(product.colors || ["Black", "Blue", "Gray"]).map(
                 (color, i) => (
                   <button
                     key={i}
                     onClick={() => setSelectedColor(color)}
-                    className={`w-9 h-9 rounded-full flex items-center justify-center transition-transform ${
+                    className={`px-3 py-1 text-xs border rounded-full font-medium transition-all ${
                       selectedColor === color
-                        ? "ring-2 ring-offset-2 ring-black scale-110"
-                        : "hover:scale-105"
+                        ? "bg-black text-white border-black"
+                        : "bg-gray-100 text-gray-700 border-gray-200"
                     }`}
-                    style={{ backgroundColor: color }}
                   >
-                    {selectedColor === color && (
-                      <span className="text-white text-xs font-bold">✓</span>
-                    )}
+                    {color}
                   </button>
                 )
               )}
             </div>
           </div>
 
-          {/* Choose Size */}
           <div className="border-b border-gray-100 pb-5">
             <p className="text-xs font-semibold text-gray-500 mb-2.5">
               Choose Size
             </p>
             <div className="flex flex-wrap gap-2.5">
-              {(currentProduct.sizes || ["Small", "Medium", "Large", "X-Large"]).map(
+              {(product.sizes || ["Small", "Medium", "Large", "X-Large"]).map(
                 (sz) => (
                   <button
                     key={sz}
@@ -200,7 +193,6 @@ export default function ProductDetailPage({
             </div>
           </div>
 
-          {/* Quantity & Add to Cart */}
           <div className="flex items-center gap-4 pt-2">
             <div className="flex items-center justify-between bg-[#F0F0F0] rounded-full px-5 py-3 w-[140px]">
               <button
@@ -240,12 +232,11 @@ export default function ProductDetailPage({
         </div>
       </div>
 
-      {/* Customer Reviews Section */}
       <CustomerTestimonials />
 
-      {/* Recommendations */}
       <Top_sell
         title="YOU MIGHT ALSO LIKE"
+        products={products}
         onSelectProduct={onSelectProduct}
         onNavigate={onNavigate}
       />

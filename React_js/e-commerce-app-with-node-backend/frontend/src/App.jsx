@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProducts, addProduct, removeProduct } from "./store/productsSlice";
+import { fetchCart, addToCart, removeFromCart, updateCartQty } from "./store/cartSlice";
+import { loginUser, signupUser, logoutUser } from "./store/authSlice";
+
 import Header from "./components/Header";
 import Hero from "./components/Herro";
 import FontShowcase from "./components/Retangle";
@@ -14,110 +19,41 @@ import BrandsPage from "./pages/BrandsPage";
 import AuthModal from "./components/AuthModal";
 import AddProductModal from "./components/AddProductModal";
 
-const API = "http://localhost:4000";
-
 export default function App() {
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.auth.user);
+  const products = useSelector((state) => state.products.items);
+  const cart = useSelector((state) => state.cart.items);
+
   const [currentView, setCurrentView] = useState("home");
   const [selectedProduct, setSelectedProduct] = useState(null);
-
-  const [user, setUser] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem("user")) || null;
-    } catch {
-      return null;
-    }
-  });
-
-  const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem("cart")) || [];
-    } catch {
-      return [];
-    }
-  });
-
   const [authOpen, setAuthOpen] = useState(false);
   const [addProductOpen, setAddProductOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchProducts = async () => {
-    try {
-      const res = await fetch(`${API}/products`);
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          setProducts(data);
-        }
-      }
-    } catch (e) {
-      // Backend not running or error - products fallback in components will handle gracefully
-    }
-  };
-
-  const fetchCart = async (uid) => {
-    if (!uid) return;
-    try {
-      const res = await fetch(`${API}/cart/${uid}`);
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data)) {
-          setCart(data);
-          localStorage.setItem("cart", JSON.stringify(data));
-        }
-      }
-    } catch (e) {}
-  };
-
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   useEffect(() => {
     if (user?.uid) {
-      fetchCart(user.uid);
+      dispatch(fetchCart(user.uid));
     }
-  }, [user]);
-
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+  }, [user, dispatch]);
 
   const handleSignup = async (email, password) => {
-    const res = await fetch(`${API}/auth/signup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Signup failed");
-    if (data.user) {
-      setUser(data.user);
-      localStorage.setItem("user", JSON.stringify(data.user));
-    }
+    await dispatch(signupUser(email, password));
     setAuthOpen(false);
   };
 
   const handleLogin = async (email, password) => {
-    const res = await fetch(`${API}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Login failed");
-    if (data.user) {
-      setUser(data.user);
-      localStorage.setItem("user", JSON.stringify(data.user));
-    }
+    await dispatch(loginUser(email, password));
     setAuthOpen(false);
   };
 
   const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
-    setCart([]);
-    localStorage.removeItem("cart");
+    dispatch(logoutUser());
     setCurrentView("home");
   };
 
@@ -126,88 +62,39 @@ export default function App() {
       setAuthOpen(true);
       return;
     }
-    const res = await fetch(`${API}/products/add`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, price: Number(price), userId: user.uid }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to add product");
-    fetchProducts();
+    await dispatch(
+      addProduct({
+        name,
+        price: Number(price),
+        userId: user.uid,
+        category: "tshirt",
+        image: "/images/might1.png",
+        description: "New store arrival",
+      })
+    );
     setAddProductOpen(false);
   };
 
-  const handleAddToCart = async (item) => {
-    const newItem = {
-      uuid: Math.floor(1000 + Math.random() * 9000),
-      id: item.id || item._id,
-      name: item.name,
-      price: Number(item.price),
-      qty: Number(item.qty) || 1,
-      image: item.image || "/images/might1.png",
-      color: item.color || "Black",
-      size: item.size || "Large",
-      discount: item.discount || 0,
-    };
-
-    setCart((prev) => {
-      const existing = prev.find(
-        (p) =>
-          p.id === newItem.id &&
-          p.color === newItem.color &&
-          p.size === newItem.size
-      );
-      if (existing) {
-        return prev.map((p) =>
-          p.uuid === existing.uuid
-            ? { ...p, qty: p.qty + newItem.qty }
-            : p
-        );
-      }
-      return [...prev, newItem];
-    });
-
-    if (user?.uid) {
-      try {
-        await fetch(`${API}/cart/add`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            productId: newItem.id,
-            name: newItem.name,
-            price: newItem.price,
-            quantity: newItem.qty,
-            userId: user.uid,
-          }),
-        });
-      } catch (e) {}
-    }
+  const handleDeleteProduct = (productId) => {
+    if (!user) return;
+    dispatch(removeProduct(productId, user.uid));
   };
 
-  const handleUpdateCartQty = (uuidOrId, qty) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.uuid === uuidOrId || item.id === uuidOrId
-          ? { ...item, qty: Math.max(1, qty) }
-          : item
-      )
-    );
+  const handleAddToCart = (item) => {
+    if (!user) {
+      setAuthOpen(true);
+      return;
+    }
+    dispatch(addToCart(item, user.uid));
   };
 
-  const handleRemoveFromCart = async (uuidOrId) => {
-    setCart((prev) =>
-      prev.filter((item) => item.uuid !== uuidOrId && item.id !== uuidOrId)
-    );
+  const handleUpdateCartQty = (id, quantity) => {
+    dispatch(updateCartQty(id, quantity));
+  };
 
-    if (user?.uid) {
-      try {
-        await fetch(`${API}/cart/remove/${uuidOrId}`, {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId: user.uid }),
-        });
-      } catch (e) {}
-    }
+  const handleRemoveFromCart = (id) => {
+    if (!user) return;
+    dispatch(removeFromCart(id, user.uid));
   };
 
   const handleSelectProduct = (prod) => {
@@ -220,6 +107,12 @@ export default function App() {
     setCurrentView(view);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const filteredProducts = searchQuery
+    ? products.filter((p) =>
+        p.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : products;
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-white text-gray-900 font-sans">
@@ -241,12 +134,12 @@ export default function App() {
             <Hero onNavigate={handleNavigate} />
             <FontShowcase />
             <Product
-              products={products}
+              products={filteredProducts}
               onSelectProduct={handleSelectProduct}
               onNavigate={handleNavigate}
             />
             <Top_sell
-              products={products}
+              products={filteredProducts}
               onSelectProduct={handleSelectProduct}
               onNavigate={handleNavigate}
             />
@@ -257,7 +150,9 @@ export default function App() {
 
         {currentView === "casual" && (
           <CasualPage
-            products={products}
+            products={filteredProducts}
+            currentUser={user}
+            onDeleteProduct={handleDeleteProduct}
             onSelectProduct={handleSelectProduct}
             onNavigate={handleNavigate}
           />
@@ -266,6 +161,7 @@ export default function App() {
         {currentView === "detail" && (
           <ProductDetailPage
             product={selectedProduct}
+            products={products}
             onAddToCart={handleAddToCart}
             onSelectProduct={handleSelectProduct}
             onNavigate={handleNavigate}

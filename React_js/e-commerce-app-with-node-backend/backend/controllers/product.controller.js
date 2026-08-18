@@ -1,7 +1,7 @@
 const { addProduct, removeProduct, getProducts } = require("../modules/product.module");
 
-exports.addProduct = async (name, price, userId) => {
-  return await addProduct(name, price, userId);
+exports.addProduct = async (name, price, userId, category, image, description) => {
+  return await addProduct(name, price, userId, category, image, description);
 };
 
 exports.getProducts = async () => {

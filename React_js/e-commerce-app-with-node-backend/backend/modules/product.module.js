@@ -35,13 +35,19 @@ const writeData = (data) => {
   });
 };
 
-exports.addProduct = async (name, price, userId) => {
+exports.addProduct = async (name, price, userId, category = "tshirt", image = "/images/might1.png", description = "") => {
   const products = await readData();
   const newProduct = {
     id: Date.now().toString(),
     name,
-    price,
-    userId
+    price: Number(price),
+    userId,
+    category,
+    image: image || "/images/might1.png",
+    description: description || "Quality product available on SHOP.CO",
+    discountPercent: 0,
+    colors: ["Black", "Blue"],
+    sizes: ["S", "M", "L", "XL"]
   };
   await writeData([...products, newProduct]);
   return newProduct;
